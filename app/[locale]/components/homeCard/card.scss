@@ -1,0 +1,57 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  position: relative;
+  max-width: 320px;
+  padding: 20px;
+  border-radius: 16px;
+  font-size: 14px;
+  color: var(--text-color-trans);
+  background-color: var(--bg-card);
+  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px);
+  box-shadow: 0px 0px 2px 0px var(--shadow-color);
+
+  transition: transform 0.4s ease;
+
+  .card__icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .card__name {
+    color: var(--text-name-card);
+    margin-top: 17px;
+  }
+
+  .card__describe {
+    margin-top: 10px;
+  }
+
+  // Псевдоэлемент для эффекта подсветки
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    background: linear-gradient(
+      to right,
+      var(--btn-gradient-left-color-trans),
+      var(--btn-gradient-right-color-trans)
+    );
+    filter: blur(20px);
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: -1;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+
+    &::before {
+      opacity: 0.6;
+      transform: scale(1.2); // to spread light effect
+    }
+  }
+}

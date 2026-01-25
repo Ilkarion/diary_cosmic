@@ -1,0 +1,12 @@
+.bg-check {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   height: 100vh;
+
+   .bg-check__text {
+      font-size: 51px;
+      text-align: center;
+      color: var(--text-name-card);
+   }
+}

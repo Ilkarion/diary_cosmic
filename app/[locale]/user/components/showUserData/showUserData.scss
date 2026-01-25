@@ -1,0 +1,10 @@
+.greetingText {
+    color: var(--text-name-card);
+    &>h1 {
+        font-size: 34px;
+    }
+    &>p {
+        font-size: 15px;
+        opacity: 0.5;
+    }
+}

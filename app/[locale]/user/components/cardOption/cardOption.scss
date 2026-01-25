@@ -1,0 +1,56 @@
+.cardOption {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 16px 10px;
+    width: 320px;
+    background: var(--cards-main-bg);
+    color: var(--text-name-card);
+    border-radius: 15px;
+    border: 1px solid #c247ff40;
+
+    cursor: pointer;
+
+    &>p:first-of-type {
+        margin: 10px 0px 8px 0px;
+        font-size: 20px;
+    }
+    &>p:last-of-type {
+        font-size: 15px;
+        opacity: 0.7;
+    }
+}
+.icon_wrapper {
+    width: 100%;
+    padding: 10px 0px 0px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+.cardOption__icon {
+    width: 30px;
+    height: 30px;
+}
+
+
+//hovered classes
+.cardOption{
+    transition: background-color 0.5s ease;
+    &:hover.entry {
+        background: var(--new-entry-bg-hv);
+    }
+    &:hover.journal {
+        background: var(--my-journal-bg-hv);
+    }
+    &:hover.tracker {
+        background: var(--mood-tracker-bg-hv);
+    }
+    &:hover.statistics {
+        background: var(--statistics-bg-hv);
+    }
+    &:hover.discover {
+        background: var(--discover-bg-hv);
+    }
+}
+

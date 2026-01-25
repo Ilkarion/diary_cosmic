@@ -1,0 +1,172 @@
+
+
+.panel {
+  position: fixed;
+  right: 28px;            // place on the right side — change to left if you want left
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.container {
+  width: 64px;
+  padding: 18px 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-radius: 36px;
+  border: 1px solid var(--outline);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  box-shadow:
+    0 6px 22px rgba(8,6,20,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+/* button with neon ring */
+.iconBtn {
+  width: 48px;
+  height: 48px;
+  padding: 6px;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  transition: transform 140ms ease, box-shadow 180ms ease;
+  color: var(--icon-color);
+
+  svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+  }
+}
+
+/* subtle default halo */
+.iconBtn::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(155,124,255,0.04), rgba(255,110,199,0.03));
+  filter: blur(8px);
+  opacity: 1;
+  transition: opacity 180ms ease;
+  pointer-events: none;
+}
+
+/* hover - bigger glow and slight lift */
+.iconBtn:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(155,124,255,0.12);
+}
+
+.iconBtn:hover::before {
+  opacity: 1;
+  background: radial-gradient(circle at 30% 30%, rgba(155,124,255,0.18), rgba(255,110,199,0.06) 40%, transparent 60%);
+  filter: blur(12px);
+}
+
+/* active state */
+.iconBtn:active {
+  transform: translateY(-2px) scale(0.99);
+}
+
+/* focus ring for keyboard accessibility */
+.iconBtn:focus {
+  box-shadow: 0 0 0 4px rgba(155,124,255,0.08);
+}
+
+
+.langMenu {
+  position: absolute;
+  right: 70px; /* немного левее от панели */
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--panel-bg);
+  border: 1px solid var(--outline);
+  border-radius: 12px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 6px 22px rgba(8, 6, 20, 0.6),
+              0 0 12px rgba(155,124,255,0.1);
+  animation: fadeIn 0.25s ease;
+  z-index: 999;
+}
+
+.langBtn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  color: var(--icon-color);
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+
+  &:hover {
+    border-color: rgba(155,124,255,0.25);
+    box-shadow: 0 0 6px rgba(155,124,255,0.4);
+  }
+
+  &.active {
+    border-color: rgba(255,110,199,0.4);
+    box-shadow: 0 0 8px rgba(255,110,199,0.4);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-50%) scale(0.96); }
+  to { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+
+@media (max-width: 720px) {
+  .langMenu {
+    position: absolute;
+    right: 50%;
+    top: -60px;
+    transform: translateX(50%);
+    flex-direction: row;
+    gap: 10px;
+  }
+}
+
+
+
+/* small responsive tweak for mobile - move panel to bottom center */
+@media (max-width: 720px) {
+  .panel {
+    right: 50%;
+    left: auto;
+    transform: translate(50%, 0);
+    bottom: 22px;
+    top: auto;
+  }
+
+  .container {
+    flex-direction: row;
+    width: auto;
+    padding: 10px;
+    border-radius: 28px;
+    gap: 10px;
+  }
+
+  .iconBtn {
+    width: 44px;
+    height: 44px;
+  }
+}

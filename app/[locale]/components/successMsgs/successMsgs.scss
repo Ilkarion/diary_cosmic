@@ -1,0 +1,31 @@
+.success-list {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 15px;
+  width: 320px;
+}
+
+.success-item {
+  padding: 10px 12px;
+  border-radius: 10px;
+
+  font-size: 13px;
+  color: var(--success-card-text);
+
+  background: var(--success-card-bg);
+  border: 1px solid var(--success-card-border);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+
+  box-shadow: 0 0 12px rgba(80, 255, 130, 0.15);
+  animation: fadeIn 0.2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
