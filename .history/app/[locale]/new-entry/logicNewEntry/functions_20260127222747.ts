@@ -6,6 +6,7 @@ export const saveEditor = (
   title: string,
   date: string,
   tags: string[],
+  editor: HTMLTextAreaElement,
   researchTasks: ResearchTask[]
 ): TodayData => {
 

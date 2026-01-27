@@ -74,8 +74,8 @@ export default function NeonTagEditor({tasks}:{tasks:ResearchTask[]}) {
     document.execCommand("styleWithCSS", false, "true");
   }, []);
 
-  /* ---------- handlers ---------- */
-  
+
+
   const applyTag = (tag: Tag) => {
     editorRef.current?.focus();
     document.execCommand("hiliteColor", false, tag.color);

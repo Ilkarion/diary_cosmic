@@ -6,6 +6,7 @@ export const saveEditor = (
   title: string,
   date: string,
   tags: string[],
+  editor: HTMLTextAreaElement,
   researchTasks: ResearchTask[]
 ): TodayData => {
 
@@ -47,11 +48,11 @@ export const renderSaved = (
   const highlights: TodayData["highlights"] = [
     {
       text: "Hi!",
-      color: ""
+      color: "null"
     },
     {
       text: " My name is Illia",
-      color: ""
+      color: "null"
     }
   ];
 
@@ -87,7 +88,7 @@ export const startData:TodayData =   {
   "highlights": [
     {
       "text": "Hi! My name is ",
-      "color": ""
+      "color": "null"
     },
     {
       "text": "Illia",

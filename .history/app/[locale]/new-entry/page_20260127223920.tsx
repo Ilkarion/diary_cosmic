@@ -33,6 +33,7 @@ export default function Page() {
   //for highLight Editor
   const [value, setValue] = useState(""); //all text in editor-field
   const [highLights, setHighLights] = useState<TodayData["highlights"]>([]) //all separeted highlighted text
+  const editorRef = useRef<HTMLTextAreaElement>(null);
 
 
 
@@ -43,9 +44,11 @@ export default function Page() {
 
   //SAVE
   const handleSave = () => {
+    const editor = editorRef.current;
+    if (!editor) return;
 
     // const highlights = getRangyBlocks(editor);
-    const data = saveEditor(feel, title, date, tags, tasks);
+    const data = saveEditor(feel, title, date, tags, editor, tasks);
     setSavedData(data);
     console.log(JSON.stringify(data, null, 2));
   };
@@ -53,7 +56,7 @@ export default function Page() {
 
   // AUTO RENDER SAVED
   useEffect(() => {
-    if (!savedData) return;
+    if (!savedData ) return;
     renderSaved(setFeel, setTitle, setDate, setTags, setTasks, savedData, setValue, setHighLights);
   }, [savedData]);
 
