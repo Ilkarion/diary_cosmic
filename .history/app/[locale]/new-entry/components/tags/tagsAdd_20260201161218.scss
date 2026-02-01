@@ -1,0 +1,62 @@
+.titleTags {
+    margin-top: 20px;
+    font-size: 18px;
+    color: var(--text-name-card);
+}
+
+.tagsField {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: var(--task-color-bg);
+    border: 1px solid var(--task-color-bg-hv);
+    border-radius: 14px;
+    font-size: 14px;
+    color: var(--text-name-card);
+
+    &::placeholder {
+        color: var(--text-name-card);   
+    }
+    &:focus-visible {
+        outline: transparent;
+    }
+}
+
+.tagsShow {
+    margin-top: 20px;
+    margin-bottom: 18px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .tagName {
+        background-color: var(--tag-name-bg);
+        border: 1px solid var(--task-color-bg-hv);
+        border-radius: 10px;
+        color: var(--text-name-card);
+        padding: 1px 15px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+}
+
+.tagsInputWrapper {
+    position: relative;
+
+    .tagsSuggestions {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+    .suggestItem {
+        margin-top: 10px;
+        width: min-content;
+        background-color: var(--task-color-bg);
+        border: 1px solid var(--task-color-bg-hv);
+        border-radius: 10px;
+        color: var(--text-name-card);
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+}

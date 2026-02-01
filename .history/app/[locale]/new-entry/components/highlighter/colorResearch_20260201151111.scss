@@ -1,0 +1,103 @@
+/* Quill overrides */
+.ql-container {
+  border: none !important;
+  font-size: inherit;
+}
+
+.ql-editor {
+  min-height: 300px;
+  padding: 20px;
+  color: var(--text-color-newEntry);
+  outline: 2px var(--ql-editor-outline) solid;
+  border-radius: 20px;
+
+}
+
+.editor-wrapper {
+    width: 100%;
+    &> div {
+        width: 100%;
+
+    }
+}
+.task-bar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
+  justify-content: space-between;
+  align-items: center;
+
+  .colorsPick {
+    display: flex;
+    gap: 10px;
+    height: min-content;
+  }
+  .colorBtnSettings {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    &>button {
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 10px;
+      color: var(--text-color-newEntry);
+
+      
+      &>div {
+        display: flex;
+        width: 25px;
+        height: 25px;
+        &>img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+.task-btn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: var(--task-color-bg);
+  border: 1px solid;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.task-btn:hover {
+  background: var(--task-color-bg-hv);
+}
+
+.chooseDeleteColor {
+  border: 1px dashed;
+}
+
+.delete-modal {
+  position: absolute;
+  z-index: 4;
+  top: 110%;
+  display: flex;
+  flex-direction: column;
+  background-color: #201835;
+  padding: 10px;
+  border-radius: 15px;
+  gap: 5px;
+  .divineLine {
+    width: 100%;
+    height: 1px;
+    background-color:#a78bfa;
+  }
+
+  &>button {
+    padding: 3px;
+    border-radius: 10px;
+    cursor: pointer;
+    &:hover {
+      background-color: #2e244b;
+    }
+  }
+}

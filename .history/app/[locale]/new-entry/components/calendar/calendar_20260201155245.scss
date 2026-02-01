@@ -1,0 +1,72 @@
+.date-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+
+  .open-btn {
+    width: min-content;
+    padding: 5px 18px;
+    border-radius: 10px;
+    background: var(--bg-calendar-input);
+    outline: 1px solid var(--outline-calendar);
+    color: var(--text-name-card);
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .popup {
+    position: absolute;
+    z-index: 6;
+    top: 45px;
+    background: var(--bg-calendar);
+    padding: 16px;
+    width: 220px;
+    border-radius: 14px;
+    border: 1px solid var(--border-calendar);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: fade 0.2s ease;
+  }
+
+  .calendar {
+    background: #0d0a1a;
+    border: 1px solid var(--border-input-calendar);
+    padding: 10px;
+    border-radius: 10px;
+    color: var(--text-name-card);
+    width: 100%;
+    outline: none;
+  }
+
+  .ok-btn {
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: var(--ok-btn-bg-calendar);
+    border: none;
+    color: #7d64ee;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+  }
+
+  .result {
+    color: var(--text-color-trans);
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

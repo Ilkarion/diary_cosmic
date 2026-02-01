@@ -1,0 +1,15 @@
+.feel {
+    padding: 5px 15px;
+    color: var(--text-name-card);
+    background-color: var(--feel-bg);
+    border: 1px solid var(--task-color-bg-hv);
+    border-radius: 10px;
+    cursor: pointer;
+    &:hover {
+        border: 1px solid rgba(255, 255, 255, 0.479);
+    }
+}
+
+.feel.selected {
+    background-color: #3a2e5c;
+}

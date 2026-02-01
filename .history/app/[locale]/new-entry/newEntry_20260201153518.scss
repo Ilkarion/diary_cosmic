@@ -1,0 +1,131 @@
+.main-wraper-new-entry {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-wrapper-newEntry {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.headerNewEntry {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  color: var(--text-name-card);
+
+  & > span {
+    margin-left: 30px;
+  }
+
+  & > a {
+    color: var(--link-color-newEntry);
+    span {
+      font-size: 20px;
+      margin-right: 10px;
+    }
+  }
+}
+
+.titleField {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--task-color-bg);
+  border: 1px solid var(--task-color-bg-hv);
+  border-radius: 10px;
+  color: var(--text-name-card);
+  margin-bottom: 15px;
+  &:focus-visible {
+    border-color: transparent;
+    outline: transparent;
+  }
+  &::placeholder {
+    color: var(--text-name-card);
+  }
+}
+
+.feelingsWraper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.highlighter-wrapper {
+    height: 100%;
+    padding: 20px 40px 0px 0px;
+}
+
+
+.diary-wrap {
+  background: var(--diary-wrapper);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border-radius: 22px;
+  padding: 34px;
+  border: 1px solid var(--task-color-bg);
+  box-shadow: 0 0 40px var(--wrapper-box-shadow);
+  width: 100%;
+  max-width: 850px;
+  margin: 40px auto;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* highlighted spans */
+.hl {
+  border-radius: 6px;
+  padding: 1px 3px;
+}
+
+/* ----- SAVE BUTTON ----- */
+.save-btn {
+  margin-top: 22px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  background: linear-gradient(130deg, var(--btn-gradient-left-color), var(--btn-gradient-right-color));
+  border: none;
+  color: var(--text-name-card);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.save-btn:hover {
+  box-shadow: 0 0 6px rgba(255, 0, 180, 0.6);
+}
+
+/* neon button */
+.btn.neon {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  border: 1px solid rgba(255, 0, 180, 0.4);
+  box-shadow: 0 0 12px rgba(255, 0, 180, 0.25);
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.btn.neon:hover {
+  background: rgba(255, 0, 180, 0.12);
+  box-shadow: 0 0 20px rgba(255, 0, 180, 0.45);
+}
+
+
+
+//HIGHLIGHTER default color(letter will be automatically changing):
