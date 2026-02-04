@@ -1,0 +1,9 @@
+.recentWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .recentTitle {
+        font-size: 1.2rem;
+    }
+}

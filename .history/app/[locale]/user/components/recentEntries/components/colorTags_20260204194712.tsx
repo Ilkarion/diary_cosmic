@@ -1,0 +1,40 @@
+'use client';
+
+import './colorTags.scss';
+
+interface Tag {
+  name: string;
+  color: string;
+}
+
+export default function ColorTags({ tags}:{tags:Tag}) {
+  // функция конвертирует hex в rgba
+  const hexToRgba = (hex: string, alpha: number) => {
+    if (!hex) return '';
+    if (hex.startsWith('rgba') || hex.startsWith('rgb')) return hex;
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
+
+  return (
+    <div className="color-tags">
+      {tags.map((t, i) => (
+        <span
+          key={i}
+          className="color-tag"
+          style={{
+            backgroundColor: t.color ? hexToRgba(t.color, alpha) : 'transparent',
+            padding: '2px 6px',
+            borderRadius: '4px',
+            marginRight: '4px',
+            display: 'inline-block',
+          }}
+        >
+          {t.name}
+        </span>
+      ))}
+    </div>
+  );
+}

@@ -1,0 +1,24 @@
+.recentWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .recentTitle {
+        font-size: 1.2rem;
+    }
+
+    .recentDate {
+        opacity: 0.8;
+    }
+
+    .recentlyFeels {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+
+        &>div {
+            padding: 3px 5px;
+            border-radius: 15px;
+        }
+    }
+}

@@ -1,0 +1,63 @@
+.recentWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 17px;
+    border-radius: 15px;
+    background-color: rgba(22, 18, 62, 0.561);
+
+    .recentlyHeader {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .titleFeelsWrapper {
+
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-items: center;
+            .recentTitle {
+                font-size: 1.2rem;
+            }
+            .recentlyFeels {
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+
+                &>div {
+                    padding: 3px 3px;
+                }
+            }    
+        }
+    }
+
+
+    .divineLine {
+        width: 70%;
+        height: 1px;
+        background-color: #2E0F42;
+        margin-top: 5px;
+    }
+
+
+    .recentDate {
+        opacity: 0.8;
+        margin-bottom: 10px;
+    }
+
+    .recentTags {
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        margin-top: 20px;
+        gap: 10px;
+        &>span {
+            padding: 3px 10px;
+            border-radius: 10px;
+            background-color: #1b164c;
+        }
+    }
+
+}
