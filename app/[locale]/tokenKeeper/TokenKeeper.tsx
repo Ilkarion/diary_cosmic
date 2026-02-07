@@ -14,7 +14,7 @@ export default function TokenKeeper() {
       // страницы, где НЕ надо редиректить
 
       try {
-        let res = await fetch("http://localhost:3001/api/me", {
+        let res = await fetch("https://your-book-backend-1.onrender.com/api/me", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -30,7 +30,7 @@ export default function TokenKeeper() {
           }
         // expired access token
         if (res.status === 401 || res.status === 403) {
-          const refresh = await fetch("http://localhost:3001/api/refresh", {
+          const refresh = await fetch("https://your-book-backend-1.onrender.com/api/refresh", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -46,7 +46,7 @@ export default function TokenKeeper() {
           
 
           // retry /me
-          res = await fetch("http://localhost:3001/api/me", {
+          res = await fetch("https://your-book-backend-1.onrender.com/api/me", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -68,7 +68,7 @@ export default function TokenKeeper() {
     checkAuth()
 
     const interval = setInterval(() => {
-      fetch("http://localhost:3001/api/refresh", {
+      fetch("https://your-book-backend-1.onrender.com/api/refresh", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
