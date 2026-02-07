@@ -29,7 +29,7 @@ export const cleanHighlightsByGlobalColors = (
 //API
 export async function fetchDiary() {
     try {
-    const res = await fetch("http://localhost:3001/api/diary", { 
+    const res = await fetch("https://your-book-backend-1.onrender.com/api/diary", { 
       method: "POST",
       credentials: "include",
       headers: {
@@ -38,7 +38,7 @@ export async function fetchDiary() {
     });
     if (res.status === 403 || res.status === 401) {
       await refreshToken();
-      return await fetch("http://localhost:3001/api/diary", { credentials: "include" });
+      return await fetch("https://your-book-backend-1.onrender.com/api/diary", { credentials: "include" });
     }
     if (!res.ok) return null;
     return await res.json();
@@ -50,7 +50,7 @@ export async function fetchDiary() {
 
 const addDiaryRecord = async (record: DiaryRecordPayload2) => {
   try {
-    const res = await fetch("http://localhost:3001/api/diary-send", {
+    const res = await fetch("https://your-book-backend-1.onrender.com/api/diary-send", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -78,7 +78,7 @@ const addDiaryRecord = async (record: DiaryRecordPayload2) => {
 
 export async function fetchAllTags() {
   try {
-    const res = await fetch("http://localhost:3001/api/diary-allTags", {
+    const res = await fetch("https://your-book-backend-1.onrender.com/api/diary-allTags", {
       method: "POST",
       credentials: "include", // важно для отправки cookie с токеном
       headers: {
@@ -104,7 +104,7 @@ export async function fetchAllTags() {
 
 //edit record
 export async function editDiaryRecord(record: TodayData) {
-  const res = await fetch("http://localhost:3001/api/diary-edit", {
+  const res = await fetch("https://your-book-backend-1.onrender.com/api/diary-edit", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -127,7 +127,7 @@ export async function editDiaryRecord(record: TodayData) {
 
 //get record by id
 export async function fetchDiaryRecord(id: string) {
-  const res = await fetch(`http://localhost:3001/api/diary-record/${id}`, {
+  const res = await fetch(`https://your-book-backend-1.onrender.com/api/diary-record/${id}`, {
     credentials: "include",
   });
 
@@ -140,7 +140,7 @@ export async function fetchDiaryRecord(id: string) {
 
 //delete record
 export async function deleteDiaryRecord(id_record:string) {
-  const res = await fetch(`http://localhost:3001/api/diary-delete/${id_record}`, {
+  const res = await fetch(`https://your-book-backend-1.onrender.com/api/diary-delete/${id_record}`, {
     method: "DELETE",
     credentials: "include", // важно для cookies с JWT
     headers: {
