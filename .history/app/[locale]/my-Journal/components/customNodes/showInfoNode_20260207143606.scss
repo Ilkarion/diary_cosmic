@@ -1,0 +1,15 @@
+.text-updater-node {
+    background-color: var(--cards-main-bg);
+    padding: 20px;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    border: 1px solid;
+
+    color: var(--text-name-card);
+
+    .title_record_info {
+        font-size: 1.2rem;
+    }
+}

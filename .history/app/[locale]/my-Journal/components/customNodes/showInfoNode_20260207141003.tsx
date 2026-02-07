@@ -1,0 +1,30 @@
+'use client'
+
+export type ColorTag = {
+  name: string;
+  color: string;
+};
+
+export type Highlight = {
+  text: string;
+  color: string;
+};
+
+export type RecordType = {
+  id_record: string;
+  title: string;
+  created_at: string; // ISO date string
+  date?: string;      // Display date string
+  highlights: Highlight[];
+  color_Tags: ColorTag[];
+};
+
+export default function ShowInfoNodetsxtsx() {
+
+ 
+  return (
+    <div className="text-updater-node">
+      
+    </div>
+  );
+}
