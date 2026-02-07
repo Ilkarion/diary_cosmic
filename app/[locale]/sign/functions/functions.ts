@@ -41,7 +41,7 @@ export function validate(data: FormFields, isLogin: boolean): string[] {
 //BackEnd sending data
 export async function registerUser(username: string, email: string, password: string) {
   try {
-    const res = await fetch("https://your-book-backend-1.onrender.com/register", {
+    const res = await fetch("https://your-book-backend-1.onrender.com/api/register", {
       method: "POST",
       credentials: "include", // accept cookies
       headers: {
@@ -59,7 +59,7 @@ export async function registerUser(username: string, email: string, password: st
 
 export async function loginUser(email: string, password: string) {
   try {
-    const res = await fetch("https://your-book-backend-1.onrender.com/login", {
+    const res = await fetch("https://your-book-backend-1.onrender.com/api/login", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
