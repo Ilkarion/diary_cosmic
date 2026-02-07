@@ -82,7 +82,6 @@ const deleteEditableRecord = ()=>{
       alert("This record was deleted)!")
       router.push("/new-entry?mode=create")
       setSavedData({
-        id_record: "",
         title: "",
         date: "",
         feels: [],
