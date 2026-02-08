@@ -1,12 +1,36 @@
 .bg-check {
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
 
-   .bg-check__text {
-      font-size: 51px;
-      text-align: center;
-      color: var(--text-name-card);
-   }
+.bg-check__text {
+  color: var(--text-color-newEntry);
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+/* loader dots */
+.loader-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--btn-gradient-left-color);
+  animation: bounce 1s infinite ease-in-out;
+}
+
+.dot1 { animation-delay: 0s; }
+.dot2 { animation-delay: 0.2s; }
+.dot3 { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
 }

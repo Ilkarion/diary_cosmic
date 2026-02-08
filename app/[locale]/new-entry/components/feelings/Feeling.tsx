@@ -3,6 +3,7 @@ import { FeelingOption } from "../../entry-types/types";
 import "./feeling.scss";
 import React from "react";
 
+import { useTranslations } from "next-intl";
 
 export default function Feeling({
   option,
@@ -13,13 +14,14 @@ export default function Feeling({
   feels: FeelingOption[];
   setFeel: React.Dispatch<React.SetStateAction<FeelingOption[]>>;
 }) {
+  const t = useTranslations("NewEntryPage.feelings")
   const pick: Record<FeelingOption, string> = {
-    happy: "😆Happy",
-    sad: "😔Sad",
-    peacful: "😌Peacful",
-    frustrated: "😤Frustrated",
-    thoughtful: "🧐Thoughtful",
-    inspired: "✨Inspired",
+    happy: `😆${t("feel1")}`,
+    sad: `😔${t("feel2")}`,
+    peacful: `😌${t("feel3")}`,
+    frustrated: `😤${t("feel4")}`,
+    thoughtful: `🧐${t("feel5")}`,
+    inspired: `✨${t("feel6")}`,
   };
 
   const isSelected = feels.includes(option);

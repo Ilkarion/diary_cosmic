@@ -4,22 +4,22 @@
     width: 100%;
     padding: 10px 17px;
     border-radius: 15px;
-    background-color: rgba(22, 18, 62, 0.561);
-
-
+    background-color: var(--diary-wrapper);
 
         .titleFeelsWrapper {
-
             display: flex;
             flex-direction: row;
             gap: 10px;
             align-items: center;
+
             .recentTitle {
                 font-size: 1.2rem;
+                color: var(--text-color-newEntry);
                 @media(width < 475px) {
                     font-size: 1rem;
                 }
             }
+
             .recentlyFeels {
                 display: flex;
                 flex-direction: row;
@@ -27,6 +27,7 @@
 
                 &>div {
                     padding: 3px 3px;
+                    background-color: var(--feel-bg);
                 }
 
                 @media(width < 475px) {
@@ -35,17 +36,16 @@
             }    
     }
 
-
     .divineLine {
         width: 70%;
         height: 1px;
-        background-color: #2E0F42;
+        background-color: var(--divine-line);
         margin-top: 5px;
     }
 
-
     .recentDate {
         opacity: 0.8;
+        color: var(--text-color-newEntryTr);
         margin-bottom: 10px;
         @media(width < 475px) {
             font-size: 0.8rem;
@@ -60,24 +60,25 @@
         margin-bottom: 10px;
         gap: 10px;
         flex-wrap: wrap;
+
         &>span {
             padding: 3px 10px;
             border-radius: 10px;
-            background-color: #1b164c;
+            background-color: var(--tag-name-bg);
+            color: var(--text-color-newEntry);
         }
-        
     }
 
 @media(width < 475px) {
     .color-text {
         font-size: 0.9rem;
+        color: var(--text-color-newEntry);
     }
-
 }
 
 }
 
-//edit btn
+// edit btn
 .editIcon {
     position: absolute;
     top: 10px;
@@ -87,7 +88,9 @@
     z-index: 10;
     width: 25px;
     height: 25px;
+    color: var(--link-color-newEntry);
 }
+
 .recentWrapper {
     position: relative;
 }

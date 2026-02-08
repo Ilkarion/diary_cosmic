@@ -1,4 +1,5 @@
-import { FeelingOption, ResearchTask, TodayData, Highlight, AllTags_Records, DiaryRecordPayload, DiaryRecordPayload2 } from "../entry-types/types";
+import { refreshToken } from "../../user/functions/funstions";
+import { FeelingOption, ResearchTask, TodayData, Highlight, DiaryRecordPayload2 } from "../entry-types/types";
 
 //clean colors:
 export const cleanHighlightsByGlobalColors = (
@@ -28,48 +29,52 @@ export const cleanHighlightsByGlobalColors = (
 
 //API
 export async function fetchDiary() {
-    try {
-    const res = await fetch("https://your-book-backend-1.onrender.com/api/diary", { 
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      }, 
-    });
-    if (res.status === 403 || res.status === 401) {
+  try {
+    const request = () =>
+      fetch("https://your-book-backend-1.onrender.com/api/diary", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      });
+
+    let res = await request();
+
+    if (!res.ok) {
       await refreshToken();
-      return await fetch("https://your-book-backend-1.onrender.com/api/diary", { credentials: "include" });
+      res = await request();
     }
+
     if (!res.ok) return null;
-    return await res.json();
+    return res.json();
   } catch {
     return null;
   }
 }
 
 
+
 const addDiaryRecord = async (record: DiaryRecordPayload2) => {
   try {
-    const res = await fetch("https://your-book-backend-1.onrender.com/api/diary-send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include", // важно, чтобы куки (access_token) отправлялись
-      body: JSON.stringify(record),
-    });
+    const request = () =>
+      fetch("https://your-book-backend-1.onrender.com/api/diary-send", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(record),
+      });
 
-    const data = await res.json();
+    let res = await request();
 
     if (!res.ok) {
-      console.error("Error adding record:", data.message);
-      return null;
+      await refreshToken();
+      res = await request();
     }
 
-    console.log("Record added successfully:", data);
-    return data;
+    if (!res.ok) throw new Error("Request failed");
+
+    return res.json();
   } catch (err) {
-    console.error("Fetch error:", err);
+    console.error("Add diary error:", err);
     return null;
   }
 };
@@ -78,29 +83,32 @@ const addDiaryRecord = async (record: DiaryRecordPayload2) => {
 
 export async function fetchAllTags() {
   try {
-    const res = await fetch("https://your-book-backend-1.onrender.com/api/diary-allTags", {
-      method: "POST",
-      credentials: "include", // важно для отправки cookie с токеном
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const request = () =>
+      fetch("https://your-book-backend-1.onrender.com/api/diary-allTags", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      });
+
+    let res = await request();
 
     if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.message || "Failed to fetch tags");
+      await refreshToken();
+      res = await request();
     }
+
+    if (!res.ok) return null;
 
     const data = await res.json();
     return {
       all_Tags: data.all_Tags,
       all_Color_Tags: data.all_Color_Tags,
     };
-  } catch (err) {
-    if (err instanceof Error) console.error("Error fetching tags:", err.message);
+  } catch {
     return null;
   }
 }
+
 
 //edit record
 export async function editDiaryRecord(record: TodayData) {
@@ -127,34 +135,52 @@ export async function editDiaryRecord(record: TodayData) {
 
 //get record by id
 export async function fetchDiaryRecord(id: string) {
-  const res = await fetch(`https://your-book-backend-1.onrender.com/api/diary-record/${id}`, {
-    credentials: "include",
-  });
+  try {
+    const request = () =>
+      fetch(`https://your-book-backend-1.onrender.com/api/diary-record/${id}`, {
+        credentials: "include",
+      });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch record");
+    let res = await request();
+
+    if (!res.ok) {
+      await refreshToken();
+      res = await request();
+    }
+
+    if (!res.ok) throw new Error("Failed");
+
+    return res.json();
+  } catch {
+    return null;
   }
-  return res.json();
 }
 
 
+
 //delete record
-export async function deleteDiaryRecord(id_record:string) {
-  const res = await fetch(`https://your-book-backend-1.onrender.com/api/diary-delete/${id_record}`, {
-    method: "DELETE",
-    credentials: "include", // важно для cookies с JWT
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+export async function deleteDiaryRecord(id_record: string) {
+  try {
+    const request = () =>
+      fetch(`https://your-book-backend-1.onrender.com/api/diary-delete/${id_record}`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      });
 
-  const data = await res.json();
+    let res = await request();
 
-  if (!res.ok) {
-    throw new Error(data.message || "Failed to delete record");
+    if (!res.ok) {
+      await refreshToken();
+      res = await request();
+    }
+
+    if (!res.ok) throw new Error("Delete failed");
+
+    return res.json();
+  } catch {
+    return null;
   }
-
-  return data;
 }
 
 
@@ -288,235 +314,3 @@ export const renderSaved = (
 
 };
 
-
-function refreshToken() {
-  throw new Error("Function not implemented.");
-}
-// export const startData:TodayData =   {
-
-//   "title": "Introduce yorself)",
-//   "date": "Friday, December 26, 2025",
-//   "feels": [
-//     "happy",
-//     "peacful",
-//     "inspired"
-//   ],
-//   "tags": ["hemilion"],
-
-//   "researchTasks": [
-//     {
-//       "name": "green",
-//       "color": "#66ff99"
-//     },
-//     {
-//       "name": "purple",
-//       "color": "#de66ff"
-//     }
-//   ],
-//   "highlights": [
-//     {
-//       "text": "Hi!",
-//       "color": "rgba(222, 102, 255, 0.6)"
-//     },
-//     {
-//       "text": " My name",
-//       "color": ""
-//     },
-//     {
-//       "text": " is",
-//       "color": "rgba(102, 255, 153, 0.6)"
-//     },
-//     {
-//       "text": " Illia.\n",
-//       "color": ""
-//     }
-//   ],
-
-//   //different table in BackEnd
-//   "allColorTags": [
-//         {
-//       "name": "green",
-//       "color": "#66ff99"
-//     },
-//     {
-//       "name": "purple",
-//       "color": "#de66ff"
-//     },
-//         {
-//       "name": "green2",
-//       "color": "#68ff99"
-//     },
-//     {
-//       "name": "purple2",
-//       "color": "#de67ff"
-//     },
-//         {
-//       "name": "green3",
-//       "color": "#66ff39"
-//     },
-//     {
-//       "name": "purple3",
-//       "color": "#de56ff"
-//     }
-//   ],
-//   "allTags": ["apple", "Eliasz", "hemilion", "rainbow"]
-
-// }
-
-// export const startDataUser:AllTags_Records =   {
-//   diaryAllTags: {
-//     "all_Color_Tags": [
-//         {
-//       "name": "green",
-//       "color": "#66ff99"
-//     },
-//     {
-//       "name": "purple",
-//       "color": "#de66ff"
-//     },
-//         {
-//       "name": "green2",
-//       "color": "#68ff99"
-//     },
-//     {
-//       "name": "purple2",
-//       "color": "#de67ff"
-//     },
-//         {
-//       "name": "green3",
-//       "color": "#66ff39"
-//     },
-//     {
-//       "name": "purple3",
-//       "color": "#de56ff"
-//     }
-//   ],
-//     "all_Tags": ["apple", "Eliasz", "hemilion", "rainbow"]
-//   },
-
-//   diaryRecords: [
-//     {
-//     "title": "Introduce yorself)",
-//     "date": "Friday, December 26, 2025",
-//     "feels": [
-//       "happy",
-//       "peacful",
-//       "inspired"
-//     ],
-//     "tags": ["hemilion", "home", "sky", "sun"],
-
-//     "color_Tags": [
-//       {
-//         "name": "green",
-//         "color": "#66ff99"
-//       },
-//       {
-//         "name": "purple",
-//         "color": "#de66ff"
-//       }
-//     ],
-//     "highlights": [
-//       {
-//         "text": "Hi!",
-//         "color": "rgba(222, 102, 255, 0.6)"
-//       },
-//       {
-//         "text": " My name  ",
-//         "color": ""
-//       },
-//       {
-//         "text": " is",
-//         "color": "rgba(102, 255, 153, 0.6)"
-//       },
-//       {
-//         "text": " Illia.\n",
-//         "color": ""
-//       }
-//     ],      
-//     },
-//         {
-//     "title": "Introduce yorself)",
-//     "date": "Friday, December 26, 2025",
-//     "feels": [
-//       "happy",
-//       "peacful",
-//       "inspired"
-//     ],
-//     "tags": ["hemilion", "home", "sky", "sun"],
-
-//     "color_Tags": [
-//       {
-//         "name": "green",
-//         "color": "#66ff99"
-//       },
-//       {
-//         "name": "purple",
-//         "color": "#de66ff"
-//       }
-//     ],
-//     "highlights": [
-//       {
-//         "text": "Hi!",
-//         "color": "rgba(222, 102, 255, 0.6)"
-//       },
-//       {
-//         "text": " My name  ",
-//         "color": ""
-//       },
-//       {
-//         "text": " is",
-//         "color": "rgba(102, 255, 153, 0.6)"
-//       },
-//       {
-//         "text": " Illia.\n",
-//         "color": ""
-//       }
-//     ],      
-//     },
-//         {
-//     "title": "Introduce yorself)",
-//     "date": "Friday, December 26, 2025",
-//     "feels": [
-//       "happy",
-//       "peacful",
-//       "inspired"
-//     ],
-//     "tags": ["hemilion", "home", "sky", "sun"],
-
-//     "color_Tags": [
-//       {
-//         "name": "green",
-//         "color": "#66ff99"
-//       },
-//       {
-//         "name": "purple",
-//         "color": "#de66ff"
-//       }
-//     ],
-//     "highlights": [
-//       {
-//         "text": "Hi!",
-//         "color": "rgba(222, 102, 255, 0.6)"
-//       },
-//       {
-//         "text": " My name  ",
-//         "color": ""
-//       },
-//       {
-//         "text": " is",
-//         "color": "rgba(102, 255, 153, 0.6)"
-//       },
-//       {
-//         "text": " Illia.\n",
-//         "color": ""
-//       }
-//     ],      
-//     }
-//   ]
-
-
-
-//   //different table in BackEnd
-
-
-// }

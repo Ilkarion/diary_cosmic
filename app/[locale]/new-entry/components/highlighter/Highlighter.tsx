@@ -6,6 +6,8 @@ import { ResearchTask } from "../../entry-types/types";
 import Image from "next/image";
 import moreOptionsIcon from "@/public/imgs/more-options.svg"
 
+import { useTranslations } from "next-intl";
+
 export default function Highlighter(
   {
     highLightTekst,
@@ -19,6 +21,8 @@ export default function Highlighter(
     setAllSavedTags: React.Dispatch<React.SetStateAction<ResearchTask[]>>; 
   }
 ) {
+
+  const t = useTranslations("NewEntryPage")
   const [newTaskColor, setNewTaskColor] = useState("#66ff99");
   const [newTaskName, setNewTaskName] = useState("");
   const [access, setAccess] = useState(false)
@@ -65,7 +69,7 @@ export default function Highlighter(
         <div className="textFieldColor">
             <input
               className="input"
-              placeholder="color name…"
+              placeholder={t("highlighterPlaceHolder")}
               value={newTaskName}
               onChange={(e) => setNewTaskName(e.target.value)}
             />
@@ -89,7 +93,7 @@ export default function Highlighter(
           onClick={handleAdd}
           disabled={isColorExists || !newTaskName.trim()}
         >
-          Add
+          {t("addBtn")}
         </button>
       </div>
 

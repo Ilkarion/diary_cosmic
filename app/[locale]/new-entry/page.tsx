@@ -14,9 +14,12 @@ import ColorResearch from "./components/highlighter/colorResearch";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
+import { useTranslations } from "next-intl";
+
 
 
 export default function Page() {
+  const t = useTranslations("NewEntryPage")
 
   const [tasks, setTasks] = useState<ResearchTask[]>([]);
   const [savedData, setSavedData] = useState<TodayData | null>();
@@ -158,8 +161,8 @@ const handleSave = async () => {  // <- async функция
     <div className="main-wraper-new-entry">
       <div className="header-wrapper-newEntry">
         <div className="headerNewEntry">
-            <Link href={"/user"}><span>←</span> Back</Link>
-            <span>New Day Record</span>
+            <Link href={"/user"}><span>←</span> {t("form.header.return")}</Link>
+            <span>{t("form.header.title")}</span>
         </div>
         <div className="highlighter-wrapper">
           <Highlighter highLightTekst={tasks} 
@@ -169,7 +172,7 @@ const handleSave = async () => {  // <- async функция
         </div>
       </div>
       <div className="diary-wrap">
-        <input type="text" placeholder="Entry title" className="titleField"
+        <input type="text" placeholder={`${t("form.header.title")}...`} className="titleField"
           value={title}
           onChange={(e)=>setTitle(e.target.value)}/>
 
@@ -209,8 +212,8 @@ const handleSave = async () => {  // <- async функция
         
 
         <div className="btnWraperNewEntry">
-          <button className="save-btn" onClick={handleSave} disabled={saving}>Save</button>
-          {mode==="edit" && <button className="delete_editMode_btn" onClick={deleteEditableRecord}>Delete</button>}
+          <button className="save-btn" onClick={handleSave} disabled={saving}>{t("form.saveBtn")}</button>
+          {mode==="edit" && <button className="delete_editMode_btn" onClick={deleteEditableRecord}>{t("form.deleteBtn")}</button>}
         </div>
       </div>
     </div>

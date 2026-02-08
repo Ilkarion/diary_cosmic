@@ -10,9 +10,13 @@ import editIcon from "@/public/imgs/edit.svg"
 import starsIcon from "@/public/imgs/stars.svg"
 import { redirect } from "next/navigation"
 
+import { useTranslations } from "next-intl"
+
 
 
 export default function CardOption({option, mode="default", id_record="default"}:{option: string, mode?:string, id_record?:string}) {
+    const t = useTranslations("UserPages")
+    
     const optionPack = {
         image:  option==="New Entry" ? editIcon : 
                 option==="My Journal" ? telescopeIcon : 
@@ -20,17 +24,17 @@ export default function CardOption({option, mode="default", id_record="default"}
                 option==="Statistics" ? starsIcon :
                 option==="Discover" ? telescopeIcon : settingsIcon,
 
-        p1Text: option==="New Entry" ? "New Entry" : 
-                option==="My Journal" ? "My Journal" : 
-                option==="Mood Tracker" ? "Mood Tracker" :
-                option==="Statistics" ? "Statistics" :
-                option==="Discover" ? "Discover" : "Settings",
+        p1Text: option==="New Entry" ? t("page1.title") : 
+                option==="My Journal" ? t("page2.title") : 
+                option==="Mood Tracker" ? t("page3.title") :
+                option==="Statistics" ? t("page4.title") :
+                option==="Discover" ? t("page5.title") : t("page6.title"),
         
-        p2Text: option==="New Entry" ? "Create a new day record" : 
-                option==="My Journal" ? "Explore your memories" : 
-                option==="Mood Tracker" ? "Track your emotions" :
-                option==="Statistics" ? "View your activity" :
-                option==="Discover" ? "Get inspired to write" : "Customize your space",
+        p2Text: option==="New Entry" ? t("page1.text") : 
+                option==="My Journal" ? t("page2.text") : 
+                option==="Mood Tracker" ? t("page3.text") :
+                option==="Statistics" ? t("page4.text") :
+                option==="Discover" ? t("page5.text") : t("page6.text"),
         
         hoverColor: option==="New Entry" ? "entry" : 
                     option==="My Journal" ? "journal" : 

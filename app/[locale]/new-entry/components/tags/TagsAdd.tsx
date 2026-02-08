@@ -2,6 +2,8 @@
 import { useState, useMemo } from "react";
 import "./tagsAdd.scss";
 
+import { useTranslations } from "next-intl";
+
 export default function TagsAdd({
   tags,
   setTags,
@@ -17,6 +19,7 @@ export default function TagsAdd({
   removeLocalTag: (tag: string) => void;
   removeGlobalTag: (tag: string) => void;
 }) {
+  const t = useTranslations("NewEntryPage")
   const [value, setValue] = useState("");
   const [activeMenuTag, setActiveMenuTag] = useState<string | null>(null);
 
@@ -57,7 +60,7 @@ function addTag(tag: string) {
 
   return (
     <>
-      <p className="titleTags">Tags</p>
+      <p className="titleTags">{t("tagsAdd.title")}</p>
 
       <div className="tagsShow">
         {tags.map((tag_name, key) => (
@@ -74,7 +77,7 @@ function addTag(tag: string) {
                     setActiveMenuTag(null);
                   }}
                 >
-                  Remove from this record
+                  {t("deleteOptions.option1")}
                 </button>
 
                 <div className="divineLine"></div>
@@ -87,7 +90,7 @@ function addTag(tag: string) {
                     setActiveMenuTag(null);
                   }}
                 >
-                  Delete forever
+                  {t("deleteOptions.option2")}
                 </button>
               </div>
             )}
@@ -98,7 +101,7 @@ function addTag(tag: string) {
       <div className="tagsInputWrapper">
         <input
           type="text"
-          placeholder="Add tags (Press Enter)"
+          placeholder={t("tagsAdd.placeholder")}
           className="tagsField"
           value={value}
           onChange={(e) => setValue(e.target.value)}

@@ -99,7 +99,7 @@ body {
     --task-color-bg-hv: rgba(255,255,255,0.07);
     --delete-outline: rgb(255, 53, 130);
     --delete-modal: #201835;
-    --divine-line: #a78bfa;
+    --divine-line: #a78bfa4d;
     --hv-btn: #2e244b;
     --btn-bg-highlighter: #0A0519;
     --btn-bg-highlighter-hv:#2e244b;
@@ -191,7 +191,7 @@ body {
     --border-calendar: rgba(193, 122, 255, 0.45);
     --border-input-calendar: rgba(193, 122, 255, 0.6);
     --ok-btn-bg-calendar: #C778FF;
-
+    
     --feel-bg: #FFFFFF;
     --feel-hover: #8609d387;
     --feel-selected: #E9D8FF;

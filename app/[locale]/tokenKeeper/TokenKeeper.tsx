@@ -1,85 +1,57 @@
 'use client'
 
-import { useEffect } from "react"
-import { useRouter, usePathname } from "next/navigation"
+import { useEffect, useRef } from "react"
+import { usePathname } from "next/navigation"
 
 export default function TokenKeeper() {
-  const router = useRouter()
+  const lastFetchRef = useRef<number>(0) // инициализация нулём
   const pathname = usePathname()
-
-  useEffect(() => {
-    let cancelled = false
-
-    const checkAuth = async () => {
-      // страницы, где НЕ надо редиректить
-
-      try {
-        let res = await fetch("https://your-book-backend-1.onrender.com/api/me", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        })
-
-        // сервер спит — показываем alert только на /sign
-        if (!res.ok && pathname === "/sign") {
-          alert("Server paused. Wait 2-5 minutes -- Token Keeper")
-        }
-        if(res.status === 404) {
-            router.push("/sign")
-            return
-          }
-        // expired access token
-        if (res.status === 401 || res.status === 403) {
-          const refresh = await fetch("https://your-book-backend-1.onrender.com/api/refresh", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-          })
-
-          // refresh failed → редирект (только если страница защищённая)
-          if (!refresh.ok && !cancelled && pathname==="/") {
-            if (!cancelled) {
-              router.push("/sign")
-            }
-            return
-          }
-          
-
-          // retry /me
-          res = await fetch("https://your-book-backend-1.onrender.com/api/me", {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-          })
-        }
-
-        // still bad → редирект на защищённой странице
-        if (!res.ok && !cancelled && pathname==="/") {
-          router.push("/sign")
-        }
-
-      } catch {
-        if (!cancelled && pathname==="/") {
-          router.push("/sign")
-        }
-      }
-    }
-
-    checkAuth()
-
-    const interval = setInterval(() => {
-      fetch("https://your-book-backend-1.onrender.com/api/refresh", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+  const sendPing = async () => {
+    try {
+      await fetch("https://your-book-backend-1.onrender.com/api/ping", {
         credentials: "include",
       })
+    } catch {
+      //ignore this api just for ping
+    }
+    lastFetchRef.current = Date.now()
+  }
+
+  useEffect(() => {
+    // установим начальное значение на клиенте
+    lastFetchRef.current = Date.now()
+
+    // перехват fetch для обновления lastFetchRef
+    const originalFetch = window.fetch
+    window.fetch = async (...args) => {
+      lastFetchRef.current = Date.now()
+      return originalFetch(...args)
+    }
+
+    // авто-рефреш токена каждые 10 минут
+    const refreshInterval = setInterval(() => {
+      fetch("https://your-book-backend-1.onrender.com/api/refresh", {
+        method: "POST",
+        credentials: "include",
+      }).catch(() => {})
     }, 10 * 60 * 1000)
 
+    // idle ping каждые 5 секунд
+    const idleInterval = setInterval(() => {
+      if (Date.now() - lastFetchRef.current > 45000) {
+        sendPing()
+      }
+    }, 45000)
+
+    // первый пинг сразу
+    sendPing()
+
     return () => {
-      cancelled = true
-      clearInterval(interval)
+      clearInterval(refreshInterval)
+      clearInterval(idleInterval)
+      window.fetch = originalFetch
     }
-  }, [router, pathname]) // ← важно!
+  }, [])
 
   return null
 }

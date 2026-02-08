@@ -11,6 +11,8 @@ import Image from 'next/image';
 import type QuillType from 'quill';
 import type Delta from 'quill-delta';
 
+import { useTranslations } from 'next-intl';
+
 export default function ColorResearch({
   setTasks,
   setHighLights,
@@ -24,6 +26,7 @@ export default function ColorResearch({
   researchTasks: ResearchTask[];
   highlights: Highlight[];
 }) {
+  const t = useTranslations("NewEntryPage.deleteOptions")
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<QuillType | null>(null);
 
@@ -252,9 +255,9 @@ const clearBackgroundByTask = (task: ResearchTask) => {
 
         {modalTask && allowDelete && (
           <div className="delete-modal">
-            <button onClick={removeFromEntry}>Remove from this record</button>
+            <button onClick={removeFromEntry}>{t("option1")}</button>
             <div className="divineLine"></div>
-            <button onClick={deleteForever}>Delete forever</button>
+            <button onClick={deleteForever}>{t("option2")}</button>
           </div>
         )}
       </div>

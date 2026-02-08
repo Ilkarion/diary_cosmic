@@ -7,9 +7,9 @@ export function buildNodesAndEdges(
   records: dailyRecordForFlow[],
   selectedColor?: string
 ): { nodes: Node[]; edges: Edge[] } {
-  const VERTICAL_GAP = 250;   // расстояние между карточками в один день
-  const HORIZONTAL_GAP = 400; // расстояние между днями
-  const TIME_SHIFT = 80;     // сдвиг вправо для более поздних в тот же день
+  const VERTICAL_GAP = 300;    // расстояние между карточками в один день
+  const HORIZONTAL_GAP = 480;  // расстояние между днями
+  const TIME_SHIFT = 100;      // сдвиг вправо для более поздних в тот же день
 
   const filtered = selectedColor
     ? records.filter((r) =>
@@ -22,8 +22,7 @@ export function buildNodesAndEdges(
       new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
   );
 
-  const groups: Record<string, dailyRecordMap[]> = {};
-
+  const groups: Record<string, dailyRecordForFlow[]> = {};
   sorted.forEach((r) => {
     const d = new Date(r.created_at);
     const key = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
@@ -35,10 +34,14 @@ export function buildNodesAndEdges(
   const edges: Edge[] = [];
 
   let xBase = 0;
-  let prevNodeId: string | null = null;
-  let prevNodePosition: { x: number; y: number } | null = null;
+  let prevDayLastNodeId: string | null = null;
 
-  Object.values(groups).forEach((dayRecords) => {
+  const dayKeys = Object.keys(groups);
+
+  dayKeys.forEach((dayKey, dayIndex) => {
+    const dayRecords = groups[dayKey];
+
+    // Создаем ноды для текущего дня
     dayRecords.forEach((record, i) => {
       const currentPosition = {
         x: xBase + i * TIME_SHIFT,
@@ -54,24 +57,34 @@ export function buildNodesAndEdges(
 
       nodes.push(currentNode);
 
-      if (prevNodeId && prevNodePosition) {
-        const { sourceHandle, targetHandle } = getHandleDirection(
-          prevNodePosition,
-          currentPosition
-        );
-
+      // Внутри дня: соединяем вертикально снизу-сверху
+      if (i > 0) {
         edges.push({
-          id: `${prevNodeId}-${currentNode.id}`,
-          source: prevNodeId,
+          id: `${dayRecords[i - 1].id_record}-${currentNode.id}`,
+          source: dayRecords[i - 1].id_record,
           target: currentNode.id,
-          sourceHandle,
-          targetHandle,
+          sourceHandle: 'bottom',
+          targetHandle: 'top',
+          type: 'smooth',
         });
       }
-
-      prevNodeId = currentNode.id;
-      prevNodePosition = currentPosition;
     });
+
+    // Между днями: соединяем последнюю карточку этого дня с первой карточкой следующего дня
+    if (prevDayLastNodeId) {
+      const firstNodeNextDay = dayRecords[0];
+      edges.push({
+        id: `${prevDayLastNodeId}-${firstNodeNextDay.id_record}`,
+        source: prevDayLastNodeId,
+        target: firstNodeNextDay.id_record,
+        sourceHandle: 'right',
+        targetHandle: 'left',
+        type: 'smoothstep',
+      });
+    }
+
+    // Последняя нода дня, чтобы соединять со следующим днем
+    prevDayLastNodeId = dayRecords[dayRecords.length - 1].id_record;
 
     xBase += HORIZONTAL_GAP;
   });
@@ -79,25 +92,3 @@ export function buildNodesAndEdges(
   return { nodes, edges };
 }
 
-function getHandleDirection(
-  from: { x: number; y: number },
-  to: { x: number; y: number }
-): { sourceHandle: string; targetHandle: string } {
-  const dx = Math.abs(from.x - to.x);
-  const dy = Math.abs(from.y - to.y);
-
-  if (dx > dy) {
-    return {
-      sourceHandle: 'right',
-      targetHandle: 'left',
-    };
-  }
-
-  return {
-    sourceHandle: 'bottom',
-    targetHandle: 'top',
-  };
-}
-
-
-//API

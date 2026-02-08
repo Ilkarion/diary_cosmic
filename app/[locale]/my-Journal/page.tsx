@@ -8,8 +8,6 @@ import {
   useNodesState,
   useEdgesState,
   type OnNodeDrag,
-  type OnNodesChange,
-  type OnEdgesChange,
   type OnConnect,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
@@ -20,6 +18,8 @@ import { buildNodesAndEdges } from './functions/functions';
 import { fetchDiary } from '../new-entry/logicNewEntry/functions';
 import "./myJournal.scss"
 import Link from 'next/link';
+
+import { useTranslations } from 'next-intl';
 
 const nodeTypes = { showInfo: ShowInfoNode };
 
@@ -34,7 +34,8 @@ export interface dailyRecordForFlow {
   created_at: string;
 }
 
-export default function App() {
+export default function Page() {
+  const t = useTranslations("MyJournalPage")
   const [backData, setBackData] = useState<AllTags_Records | null>(null);
   const [all_Color_Tags, setAll_Color_Tags] = useState<{name: string; color:"string"}[]>()
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
@@ -58,22 +59,22 @@ export default function App() {
 
     const dataToRender = rawData && rawData.length > 0 ? rawData : [{
       id_record: "empty-record-001",
-      title: "No records found",
+      title: t("noRecords.title"),
       date: new Date().toLocaleDateString("en-US", {
         weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
       }),
       feels: ["neutral" as FeelingOption],
       tags: [],
-      color_Tags: [{ name: "info", color: "#00BFFF" }],
+      color_Tags: [{ name: t("noRecords.colorTag"), color: "#00BFFF" }],
       highlights: [
-        { text: "You currently have no journal entries.", color: "rgba(0, 191, 255, 0.6)" },
-        { text: "Create your first entry, and it will appear here.", color: "" }
+        { text: t("noRecords.text1"), color: "rgba(0, 191, 255, 0.6)" },
+        { text: t("noRecords.text2"), color: "" }
       ],
       created_at: new Date().toISOString()
     }];
 
     return buildNodesAndEdges(dataToRender, filterColor ?? undefined);
-  }, []);
+  }, [t]);
 
   // 1. Загрузка данных (без лишних зависимостей и setNodes внутри эффекта от нод)
   useEffect(() => {
@@ -93,8 +94,8 @@ export default function App() {
       }
     }
     initData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Запускаем 1 раз при маунте
+
+  }, []);
 
   // 2. Обработчик фильтра (Event-driven update, чтобы избежать useEffect)
   const handleFilterChange = (color: string | null) => {
@@ -107,7 +108,7 @@ export default function App() {
   };
 
   const onNodeDrag: OnNodeDrag = useCallback((_, node) => {
-    console.log('Node dragged:', node.id, node.position);
+
   }, []);
 
   const onConnect: OnConnect = useCallback(
@@ -120,7 +121,7 @@ export default function App() {
   return (
     <>
       <div className='wrapper_navigation'>
-        <Link href={"/user"} className='return-link-show'>{"<--Return"}</Link>        
+        <Link href={"/user"} className='return-link-show'>{"<--"}{t("btnReturn")}</Link>        
         <div className="btns_wrapper_show">
           {all_Color_Tags && all_Color_Tags.map((item, id) =>
             <button key={id}
@@ -130,7 +131,7 @@ export default function App() {
             {item.name}
             </button>
           )}
-          <button onClick={() => handleFilterChange(null)}>Show all</button>
+          <button onClick={() => handleFilterChange(null)}>{t("btnShowAll")}</button>
         </div>
       </div>
 

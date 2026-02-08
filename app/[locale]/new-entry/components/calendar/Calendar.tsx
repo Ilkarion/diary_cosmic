@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import "./calendar.scss";
 
+import { useTranslations } from "next-intl";
+
 export default function Calendar({
   date,
   setDate,
@@ -10,6 +12,7 @@ export default function Calendar({
   date: string;
   setDate: React.Dispatch<React.SetStateAction<string>>;
 }) {
+  const t = useTranslations("NewEntryPage")
   const [open, setOpen] = useState(false);
   const popupRef = useRef<HTMLDivElement | null>(null);
 
@@ -35,7 +38,7 @@ export default function Calendar({
 
 const handleOk = () => {
   const d = new Date(date);
-  const nice = d.toLocaleDateString("en-US", {
+  const nice = d.toLocaleDateString(t("dateLocal"), {
     weekday: "long",
     year: "numeric",
     month: "long",
@@ -49,7 +52,7 @@ const handleOk = () => {
     <div className="date-picker">
       {!date && (
         <button className="open-btn" onClick={openCalendar}>
-          Date
+          {t("date")}
         </button>
       )}
 
@@ -63,7 +66,7 @@ const handleOk = () => {
             onChange={(e) => setDate(e.target.value)}
           />
           <button className="ok-btn" onClick={handleOk}>
-            ok
+            OK
           </button>
         </div>
       )}

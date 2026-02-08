@@ -1,8 +1,11 @@
 'use client'
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { userInfo } from "../../functions/funstions"
-import { redirect } from "next/navigation"
 import "./showUserData.scss"
+
+import { useTranslations } from "next-intl"
+
 type UserData = {
   user: {
     username: string
@@ -12,27 +15,34 @@ type UserData = {
 }
 
 export default function ShowUser() {
+  const router = useRouter()
   const [data, setData] = useState<UserData | null>(null)
+  const t = useTranslations("UserInfoHeader")
 
-  //checks if token exists. if no -> redirect to sign form
   useEffect(() => {
     async function getUserData() {
-      const dataUser = await userInfo()
-      if(dataUser === "No token") {
-        redirect("/sign")
+      const res = await userInfo()
+
+      if (!res.ok) {
+        router.push("/sign")
+        return
       }
-      setData(dataUser)
+
+      setData(res.data || null)
     }
+
     getUserData()
-  }, [])
+  }, [router])
 
   return (
     <>
-      {data && (
+      {data ? (
         <div className="greetingText">
-          <h1>Welcome back, {data.user.username}</h1>
-          <p>Your cosmic journey continues...</p>
+          <h1>{t("greeting")}{data.user.username}</h1>
+          <p>{t("quote")}</p>
         </div>
+      ) : (
+        <p>Loading...</p>
       )}
     </>
   )

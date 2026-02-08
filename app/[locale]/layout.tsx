@@ -6,6 +6,7 @@ import { ThemeProvider } from "next-themes";
 import StarryNightBackground from "./components/animatedBg/AnimatBg";
 import SidePanel from "./components/sidePanel/SidePanel";
 import TokenKeeper from "./tokenKeeper/TokenKeeper";
+import ErrorHandler from "./components/errorHandler/ErrorHandler";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +43,7 @@ export default function RootLayout({
           >
             <StarryNightBackground />
             <SidePanel />
+            <ErrorHandler />
             <TokenKeeper />
               {children}
          </ThemeProvider>
