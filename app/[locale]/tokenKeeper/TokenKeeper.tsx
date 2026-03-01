@@ -5,27 +5,26 @@ import { useRouter } from "next/navigation"
 import { addTextErrors } from "../store/errorsStore/functions"
 
 export default function TokenKeeper() {
-  const lastFetchRef = useRef<number>(0)
+
+  const lastFetchRef = useRef(0)
   const cancelledRef = useRef(false)
   const router = useRouter()
 
   const sendPing = async () => {
     try {
       await fetch("https://your-book-backend-1.onrender.com/api/ping", {
-        credentials: "include",
+        credentials: "include"
       })
-    } catch {
-      // игнорируем ошибки ping
-    }
+    } catch {}
     lastFetchRef.current = Date.now()
   }
 
   const refreshToken = async () => {
     try {
-      const res = await fetch("https://your-book-backend-1.onrender.com/api/refresh", {
-        method: "POST",
-        credentials: "include",
-      })
+      const res = await fetch(
+        "https://your-book-backend-1.onrender.com/api/refresh",
+        { method: "POST", credentials: "include" }
+      )
       return res.ok
     } catch {
       return false
@@ -36,43 +35,49 @@ export default function TokenKeeper() {
     cancelledRef.current = false
     lastFetchRef.current = Date.now()
 
-    // Перехват fetch для обновления lastFetchRef и авто-рефреш при 401/403
     const originalFetch = window.fetch
-    window.fetch = async (...args: Parameters<typeof fetch>) => {
+
+    window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
       lastFetchRef.current = Date.now()
 
-      let res = await originalFetch(...args)
+      const url =
+        typeof input === "string"
+          ? input
+          : input instanceof URL
+          ? input.href
+          : input.url
+
+      let res = await originalFetch(input, init)
+
+      // auth endpoints не трогаем
+      if (
+        url.includes("/me") ||
+        url.includes("/refresh") ||
+        url.includes("/ping")
+      ) return res
 
       if ((res.status === 401 || res.status === 403) && !cancelledRef.current) {
         const refreshed = await refreshToken()
-        if (refreshed) {
-          res = await originalFetch(...args)
-        } else {
-          router.push("/sign")
-        }
+
+        if (refreshed) res = await originalFetch(input, init)
+        else router.push("/sign")
       }
 
-      if (!res.ok) {
-        if (res.status >= 500) addTextErrors(`Server error ${res.status}`, "error")
-        if (res.status === 404) router.push("/sign")
+      if (!res.ok && res.status >= 500) {
+        addTextErrors(`Server error ${res.status}`, "error")
       }
 
       return res
     }
 
-    // авто-рефреш каждые 10 минут
     const refreshInterval = setInterval(() => {
       refreshToken().catch(() => {})
     }, 10 * 60 * 1000)
 
-    // idle ping каждые 10 минут
     const idleInterval = setInterval(() => {
-      if (Date.now() - lastFetchRef.current > 10 * 60 * 1000) {
-        sendPing()
-      }
+      if (Date.now() - lastFetchRef.current > 10 * 60 * 1000) sendPing()
     }, 10 * 60 * 1000)
 
-    // первый пинг сразу
     sendPing()
 
     return () => {
@@ -81,6 +86,7 @@ export default function TokenKeeper() {
       clearInterval(refreshInterval)
       clearInterval(idleInterval)
     }
+
   }, [router])
 
   return null

@@ -15,8 +15,7 @@ export async function userInfo(): Promise<UserInfoResult> {
 
   try {
 
-    const res = await fetch(
-      `${API_URL}/me`,
+    const res = await fetch(`${API_URL}/me`,
       {
         method: "GET",
         credentials: "include",
@@ -29,14 +28,12 @@ export async function userInfo(): Promise<UserInfoResult> {
     // ✅ пользователь просто НЕ залогинен
     // это НЕ ошибка
     if (res.status === 401 || res.status === 403) {
-
       return {
         ok: true,
         data: {} // user undefined
       }
 
     }
-
     // сервер умер
     if (!res.ok) {
       return {
@@ -46,21 +43,16 @@ export async function userInfo(): Promise<UserInfoResult> {
     }
 
     const data: UserData = await res.json()
-
     return {
       ok: true,
       data,
     }
-
   } catch (err) {
-
     if (err instanceof Error) {
-
       return {
         ok: false,
         error: err,
       }
-
     }
 
     return {
