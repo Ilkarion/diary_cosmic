@@ -1,3 +1,25 @@
+
+
+//showUser.tsx:
+export type UserData = { 
+  user?: {
+    username: string
+    email: string
+    created_at: string
+  }
+}
+
+
+
+//customAlert.tsx && ErrorHandler.tsx:
+export type AlertType = "success" | "error" | "info" 
+
+
+export interface Tag {
+  name: string;
+  color: string;
+}
+
 export type ResearchTask = {
   name: string;
   color: string;
@@ -14,7 +36,7 @@ export type FeelingOption =
   | "peacful"
   | "frustrated"
   | "thoughtful"
-  | "inspired";
+  | "inspired"; 
 
 export interface TodayData {
   id_record: string;
@@ -53,10 +75,10 @@ export interface DiaryRecordPayload {
   id_record: string;
   title: string;
   date: string;
-  feels: string[];           // здесь можешь заменить на FeelingOption[]
+  feels: string[];
   tags: string[];
-  color_Tags: ResearchTask[];      // здесь можешь заменить на ResearchTask[]
-  highlights: Highlight[];      // здесь можешь заменить на Highlight[]
+  color_Tags: ResearchTask[];
+  highlights: Highlight[];
 
   all_Tags: string[];
   all_Color_Tags:  { name: string, color: string }[];
@@ -73,4 +95,28 @@ export interface DiaryRecordPayload2 {
 
   all_Tags: string[];
   all_Color_Tags:  { name: string, color: string }[];
+}
+
+export interface dailyRecordMap {
+  id_user?: number;
+  id_record: string;
+  title: string;
+  date: string;
+  feels: FeelingOption[];
+  highlights: { text: string; color: string }[];
+  color_Tags: ResearchTask[];
+  tags: string[];
+  created_at: string;
+}
+
+
+export interface dailyRecordForFlow {
+  id_record: string;
+  title: string;
+  date: string;
+  feels: FeelingOption[];
+  highlights: { text: string; color: string }[];
+  color_Tags: ResearchTask[];
+  tags: string[];
+  created_at: string;
 }

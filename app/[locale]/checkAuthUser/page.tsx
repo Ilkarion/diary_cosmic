@@ -3,7 +3,7 @@
 import "./scss/check.scss"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { userInfo } from "../user/functions/funstions"
+import { userInfo } from '../allFunctions/user/functions'
 
 import { useTranslations } from "next-intl"
 

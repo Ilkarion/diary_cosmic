@@ -1,7 +1,6 @@
 // layout.ts
 import { Node, Edge } from '@xyflow/react';
-import { dailyRecordMap } from '../types/detectiveTypes';
-import { dailyRecordForFlow } from '../page';
+import { dailyRecordForFlow } from '../../allTypes/typesTS';
 
 export function buildNodesAndEdges(
   records: dailyRecordForFlow[],
@@ -38,7 +37,7 @@ export function buildNodesAndEdges(
 
   const dayKeys = Object.keys(groups);
 
-  dayKeys.forEach((dayKey, dayIndex) => {
+  dayKeys.forEach((dayKey) => {
     const dayRecords = groups[dayKey];
 
     // Создаем ноды для текущего дня

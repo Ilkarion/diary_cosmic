@@ -58,6 +58,9 @@ export default function CardOption({option, mode="default", id_record="default"}
         if(option==="My Journal") {
             redirect('/my-Journal')
         }
+        if(option==="Settings") {
+            redirect('/my-settings')
+        }
     }
 
     return(

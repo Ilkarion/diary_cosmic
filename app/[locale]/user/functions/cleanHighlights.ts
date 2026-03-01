@@ -1,4 +1,4 @@
-import { AllTags_Records } from "../../new-entry/entry-types/types";
+import { AllTags_Records } from "../../allTypes/typesTS";
 
 const normalize = (c: string) => c.toLowerCase().replace(/\s/g, "");
 

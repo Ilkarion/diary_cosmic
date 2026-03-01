@@ -1,6 +1,6 @@
 'use client';
 
-import { Highlight } from "@/app/[locale]/new-entry/entry-types/types"; // путь к твоему типу
+import { Highlight } from "../../../../allTypes/typesTS"; // путь к твоему типу
 // import './colorText.scss';
 
 

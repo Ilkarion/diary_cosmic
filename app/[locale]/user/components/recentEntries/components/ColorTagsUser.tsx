@@ -1,11 +1,6 @@
 'use client';
 import "./colorTags.scss"
-
-
-interface Tag {
-  name: string;
-  color: string;
-}
+import { Tag } from "@/app/[locale]/allTypes/typesTS";
 
 export default function ColorTagsUser({ tags}:{tags:Tag[]}) {
   // функция конвертирует hex в rgba

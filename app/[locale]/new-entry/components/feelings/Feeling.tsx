@@ -1,9 +1,10 @@
 "use client";
-import { FeelingOption } from "../../entry-types/types";
+import { FeelingOption } from "../../../allTypes/typesTS";
 import "./feeling.scss";
 import React from "react";
 
 import { useTranslations } from "next-intl";
+import { addTextErrors } from "@/app/[locale]/store/errorsStore/functions";
 
 export default function Feeling({
   option,
@@ -28,7 +29,7 @@ export default function Feeling({
 
   function handleClick() {
     if (!isSelected && feels.length >= 3) {
-      alert("You can choose max 3 options");
+      addTextErrors("You can choose max 3 options", "info")
       return;
     }
 

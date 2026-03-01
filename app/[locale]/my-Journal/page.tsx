@@ -13,31 +13,23 @@ import {
 import '@xyflow/react/dist/style.css';
 
 import ShowInfoNode from './components/customNodes/showInfoNode';
-import { FeelingOption, ResearchTask, dailyRecord, AllTags_Records } from '../new-entry/entry-types/types';
-import { buildNodesAndEdges } from './functions/functions';
-import { fetchDiary } from '../new-entry/logicNewEntry/functions';
+import { FeelingOption, dailyRecord, AllTags_Records } from '../allTypes/typesTS';
+import { buildNodesAndEdges } from '../allFunctions/myJournal/functions';
+import { fetchDiary } from "../allFunctions/newEntry/functions";
 import "./myJournal.scss"
 import Link from 'next/link';
 
 import { useTranslations } from 'next-intl';
+import { addTextErrors } from '../store/errorsStore/functions';
+import { getFetchedOnceStatus, getRecords_TagsFrontEnd, getUpdateStatus, setfetchedOnceTrue, setUpdateFalse } from '../store/recordsStore/functions';
 
 const nodeTypes = { showInfo: ShowInfoNode };
 
-export interface dailyRecordForFlow {
-  id_record: string;
-  title: string;
-  date: string;
-  feels: FeelingOption[];
-  highlights: { text: string; color: string }[];
-  color_Tags: ResearchTask[];
-  tags: string[];
-  created_at: string;
-}
 
 export default function Page() {
   const t = useTranslations("MyJournalPage")
   const [backData, setBackData] = useState<AllTags_Records | null>(null);
-  const [all_Color_Tags, setAll_Color_Tags] = useState<{name: string; color:"string"}[]>()
+  const [all_Color_Tags, setAll_Color_Tags] = useState<{name: string; color:string}[]>()
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
   // ИСПРАВЛЕНИЕ: Явно указываем типы <Node> и <Edge>
@@ -77,25 +69,47 @@ export default function Page() {
   }, [t]);
 
   // 1. Загрузка данных (без лишних зависимостей и setNodes внутри эффекта от нод)
-  useEffect(() => {
-    async function initData() {
-      try {
-        const data = await fetchDiary();
-        if (data) {
-          setBackData(data);
-          // Генерируем граф сразу после получения данных
-          const { nodes: newNodes, edges: newEdges } = generateGraph(data, selectedColor); // selectedColor тут null, но передаем для консистентности
-          setNodes(newNodes);
-          setEdges(newEdges);
-          setAll_Color_Tags(data.diaryAllTags.all_Color_Tags)
-        }
-      } catch (error) {
-        console.error("Failed to fetch diary:", error);
-      }
-    }
-    initData();
+useEffect(() => {
 
-  }, []);
+  async function initData() {
+    try {
+
+      const frontData = getRecords_TagsFrontEnd();
+
+      const update = getUpdateStatus();
+      const fetchedOnce = getFetchedOnceStatus(); // флаг из Zustand
+
+      // ✅ fetch если update = true или данных с бэка ещё не было
+      const shouldFetch = update || !fetchedOnce;
+
+      let data: AllTags_Records;
+
+      if (shouldFetch) {
+        data = await fetchDiary(); // fetch только при необходимости
+        setUpdateFalse();
+        setfetchedOnceTrue(); // помечаем, что fetch сделали
+      } else {
+        data = frontData;
+      }
+
+      setBackData(data);
+
+      const { nodes, edges } = generateGraph(data, selectedColor);
+
+      setNodes(nodes);
+      setEdges(edges);
+
+      setAll_Color_Tags(data.diaryAllTags.all_Color_Tags);
+
+    } catch (error) {
+      addTextErrors(`Failed to fetch diary: ${error}`, "error");
+      throw error;
+    }
+  }
+
+  initData();
+
+}, []);
 
   // 2. Обработчик фильтра (Event-driven update, чтобы избежать useEffect)
   const handleFilterChange = (color: string | null) => {

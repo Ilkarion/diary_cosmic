@@ -1,12 +1,11 @@
 'use client'
 //types
-import { dailyRecord } from "@/app/[locale]/new-entry/entry-types/types";
+import { dailyRecord } from "../../../allTypes/typesTS";
 
 //styles
 import "./recentEntries.scss"
 
 //react
-import { useState,useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 //components
@@ -21,7 +20,6 @@ import editIcon from "@/public/imgs/edit_record.svg"
 export default function RecentEntries({ diaryRecord }: { diaryRecord: dailyRecord }) {
     const router = useRouter();
 
-    const [showEdit, setShowEdit] = useState(false);
 
 
     //emoji picker

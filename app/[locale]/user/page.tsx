@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import CardOption from "./components/cardOption/cardOption"
 import ShowUser from "./components/showUserData/showUser"
 import "./user.scss"
-import { fetchDiary,  } from "../new-entry/logicNewEntry/functions";
-import { AllTags_Records } from "../new-entry/entry-types/types";
+import { fetchDiary,  } from "../allFunctions/newEntry/functions";
+import { AllTags_Records } from "../allTypes/typesTS";
 import RecentEntries from "./components/recentEntries/RecentEntries";
 import { cleanDiaryByGlobalColorsAndTags } from "./functions/cleanHighlights";
 
 import { useTranslations } from "next-intl";
+import { getFetchedOnceStatus, getRecords_TagsFrontEnd, getUpdateStatus, setfetchedOnceTrue, setRecords_TagsStore, setUpdateFalse } from "../store/recordsStore/functions";
 
 
 
@@ -17,26 +18,47 @@ import { useTranslations } from "next-intl";
 export default function Page() {
     const [data, setData] = useState<AllTags_Records>()
 
+
     const [showRecent, setShowRecent] = useState(false)
     const t = useTranslations("UserMain")
-useEffect(() => {
-  async function getDiary() {
-    const dataDiary = await fetchDiary();
-    if (!dataDiary) return;
-    console.log(dataDiary)
-    const cleaned = cleanDiaryByGlobalColorsAndTags(dataDiary); // 👈 чистим тут
+    useEffect(() => {
 
-    setData(cleaned);
+      async function getDiary() {
 
-    if (!cleaned.diaryRecords || cleaned.diaryRecords.length === 0) {
-      setShowRecent(false);
-    } else {
-      setShowRecent(true);
-    }
-  }
+        const frontData = getRecords_TagsFrontEnd();
+        const update = getUpdateStatus()
+        const fetchedOnce = getFetchedOnceStatus()
+        const shouldFetch = update || !fetchedOnce;
 
-  getDiary();
-}, []);
+        let dataDiary: AllTags_Records;
+
+        if (shouldFetch) {
+          dataDiary = await fetchDiary();
+
+          if (!dataDiary || dataDiary.diaryRecords.length===0) return;
+
+          const cleaned = cleanDiaryByGlobalColorsAndTags(dataDiary);
+
+          setData(cleaned);
+          setRecords_TagsStore(cleaned);
+
+          // теперь мы сделали fetch хотя бы один раз
+          setfetchedOnceTrue()
+          setUpdateFalse();
+          setShowRecent(cleaned.diaryRecords.length > 0);
+
+        } else {
+          // просто отдаем frontData
+          if (!frontData) return;
+          setData(frontData);
+          setShowRecent(frontData.diaryRecords.length > 0);
+        }
+
+      }
+
+      getDiary();
+
+    }, []);
 
 
 

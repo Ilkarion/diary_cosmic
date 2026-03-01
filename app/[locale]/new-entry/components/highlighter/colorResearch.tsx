@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import './colorResearch.scss';
-import { ResearchTask, Highlight } from '../../entry-types/types';
+import { ResearchTask, Highlight } from '../../../allTypes/typesTS';
 
 import trashIcon from "@/public/imgs/trash.svg";
 import clearIcon from "@/public/imgs/clearColor.svg";

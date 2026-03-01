@@ -1,0 +1,40 @@
+.linkReturn {
+  margin: 10px 0px 20px 10px;
+  a {
+    display: inline-flex;
+
+    padding: 8px 14px;
+
+    border-radius: 10px;
+    border: 1px solid var(--divine-line);
+
+    background: var(--bg-card);
+    color: var(--text-color);
+
+    text-decoration: none;
+    font-size: 0.9rem;
+
+
+    &:hover {
+      background: transparent;
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+}
+
+.settingsWrapper {
+    padding: 20px 0px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    max-width: 700px;
+
+    gap: 20px;
+}
+
+

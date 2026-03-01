@@ -81,7 +81,7 @@ export function validateErrorsServer(error:string) {
   }else if(error === `duplicate key value violates unique constraint "users_user name_key"`) {
     return "User with this name already exists."
   }else if(error=== `Invalid email or password`){
-    return "Register or invalid email/password. Or database was временно stopped."
+    return "Register or invalid email/password.\nOr database was temporary stopped."
   }else if(error===`Email not confirmed`) {
     return "Email not confirmed"
   }

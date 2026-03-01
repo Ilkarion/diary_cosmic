@@ -2,7 +2,7 @@
 import { Handle, NodeProps, Position } from '@xyflow/react';
 import ColorTagsUser from "@/app/[locale]/user/components/recentEntries/components/ColorTagsUser";
 import ColorText from "@/app/[locale]/user/components/recentEntries/components/colorText";
-import { dailyRecordMap } from "../../types/detectiveTypes";
+import { dailyRecordMap } from "../../../allTypes/typesTS";
 import "./showInfoNode.scss";
 
 type ShowInfoNodeData = {

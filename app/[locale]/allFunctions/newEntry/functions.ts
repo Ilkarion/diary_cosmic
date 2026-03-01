@@ -1,5 +1,6 @@
-import { refreshToken } from "../../user/functions/funstions";
-import { FeelingOption, ResearchTask, TodayData, Highlight, DiaryRecordPayload2 } from "../entry-types/types";
+import { refreshToken } from "../user/functions";
+import { FeelingOption, ResearchTask, TodayData, Highlight, DiaryRecordPayload2 } from '../../allTypes/typesTS';
+import { addTextErrors } from "../../store/errorsStore/functions";
 
 //clean colors:
 export const cleanHighlightsByGlobalColors = (
@@ -81,33 +82,35 @@ const addDiaryRecord = async (record: DiaryRecordPayload2) => {
 
 // frontend/api/diary.ts
 
-export async function fetchAllTags() {
-  try {
-    const request = () =>
-      fetch("https://your-book-backend-1.onrender.com/api/diary-allTags", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-      });
+// export async function fetchAllTags() {
+//   try {
+//     const request = () =>
+//       fetch("https://your-book-backend-1.onrender.com/api/diary-allTags", {
+//         method: "POST",
+//         credentials: "include",
+//         headers: { "Content-Type": "application/json" },
+//       });
 
-    let res = await request();
+//     let res = await request();
 
-    if (!res.ok) {
-      await refreshToken();
-      res = await request();
-    }
+//     if (!res.ok) {
+//       await refreshToken();
+//       res = await request();
+//     }
 
-    if (!res.ok) return null;
+//     if (!res.ok) {
+//       return null 
+//     };
 
-    const data = await res.json();
-    return {
-      all_Tags: data.all_Tags,
-      all_Color_Tags: data.all_Color_Tags,
-    };
-  } catch {
-    return null;
-  }
-}
+//     const data = await res.json();
+//     return {
+//       all_Tags: data.all_Tags,
+//       all_Color_Tags: data.all_Color_Tags,
+//     };
+//   } catch {
+//     return null;
+//   }
+// }//REMOVE THAT AND From BACKEND TOO
 
 
 //edit record
@@ -125,7 +128,7 @@ export async function editDiaryRecord(record: TodayData) {
 
   if (!res.ok) {
     const text = await res.text();
-    console.error("Server error:", text);
+    addTextErrors(`Server error:${text}`, 'error')
     throw new Error("Failed to update record");
   }
 
@@ -148,7 +151,10 @@ export async function fetchDiaryRecord(id: string) {
       res = await request();
     }
 
-    if (!res.ok) throw new Error("Failed");
+    if (!res.ok) {
+      addTextErrors("Failed to get your record :(", "error")
+      throw new Error("Failed");
+    }
 
     return res.json();
   } catch {
@@ -175,8 +181,11 @@ export async function deleteDiaryRecord(id_record: string) {
       res = await request();
     }
 
-    if (!res.ok) throw new Error("Delete failed");
+    if (!res.ok) {
+      addTextErrors("Delete failed", "error")
+      throw new Error("Delete failed")
 
+    }
     return res.json();
   } catch {
     return null;
@@ -197,54 +206,55 @@ export const saveEditor = async (
   mode: string,
   setSaving: React.Dispatch<React.SetStateAction<boolean>>,
   id?: string | null,
-): Promise<TodayData | null> => {   // <- async и Promise
+): Promise<TodayData | null> => {
   setSaving(true);
 
   if (!title.trim()) {
-    alert("You have nothing in title. Please name your record.");
+    addTextErrors("You have nothing in title. Please name your record.", "info");
     setSaving(false);
     return null;
   }
 
   if (feels.length === 0) {
-    alert("Choose at least 1 feeling.");
+    addTextErrors("Choose at least 1 feeling.", "info");
     setSaving(false);
     return null;
   }
 
   if (!date || date === "Invalid Date") {
-    alert("Choose date");
+    addTextErrors("Choose date", "info");
     setSaving(false);
     return null;
   }
 
-  const plainText = highlights
-    .map(h => h.text)
-    .join("")
-    .replace(/\s+/g, " ")
-    .trim();
-
+  const plainText = highlights.map(h => h.text).join("").replace(/\s+/g, " ").trim();
   if (!plainText) {
-    alert("Text field is empty. Please write something.");
+    addTextErrors("Big text field is empty. Please write something.", "info");
     setSaving(false);
     return null;
   }
 
   if (plainText.length < 10) {
-    alert("Text must contain at least 10 characters.");
+    addTextErrors("Text must contain at least 10 characters.", "info");
     setSaving(false);
     return null;
   }
 
   if (plainText.length > 5000) {
-    alert(`Text must contain max 5000 symbols. You have: ${plainText.length}`);
+    addTextErrors(`Text must contain max 5000 symbols. You have: ${plainText.length}`, "info");
     setSaving(false);
     return null;
   }
 
+  // Объединяем новые цветовые теги с глобальными
+  const newColorTags = color_Tags.filter(
+    tag => !all_Color_Tags.some(t => t.name === tag.name && t.color === tag.color)
+  );
+  const updatedAllColorTags = [...all_Color_Tags, ...newColorTags];
+
   if (mode === "edit") {
     if (!id) {
-      alert("I cant update this record. Bcs id isnt correct");
+      addTextErrors("I can't update this record. Id is missing.", "info");
       setSaving(false);
       return null;
     }
@@ -258,10 +268,10 @@ export const saveEditor = async (
       color_Tags,
       highlights,
       all_Tags,
-      all_Color_Tags,
+      all_Color_Tags: updatedAllColorTags,
     };
 
-    await editDiaryRecord(updatedRecord); // <- теперь await работает
+    await editDiaryRecord(updatedRecord);
     setSaving(false);
 
   } else {
@@ -273,22 +283,22 @@ export const saveEditor = async (
       color_Tags,
       highlights,
       all_Tags,
-      all_Color_Tags,
+      all_Color_Tags: updatedAllColorTags,
     };
 
-    await addDiaryRecord(newRecord); // <- тоже async
+    await addDiaryRecord(newRecord);
     setSaving(false);
   }
 
   return {
     id_record: "",
-    title: "",
-    date: "",
+    title,
+    date,
     feels: [],
     tags: [],
     color_Tags: [],
     highlights: [],
-    all_Color_Tags,
+    all_Color_Tags: updatedAllColorTags,
     all_Tags,
   };
 };

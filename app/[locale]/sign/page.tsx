@@ -8,15 +8,13 @@ import starsIcon from "@/public/imgs/stars.svg"
 import gmailIcon from "@/public/imgs/gmail.svg"
 import userIcon from "@/public/imgs/user.svg"
 import { useEffect, useState } from "react";
-import { FormFields, loginUser, registerUser, validate, validateErrorsServer } from "./functions/functions";
-import ErrorList from "../components/errorList/ErrorList";
-import SuccessMsgs from "../components/successMsgs/SuccessMsgs";
+import { FormFields, loginUser, registerUser, validate, validateErrorsServer } from "../allFunctions/sign/functions";
 import { redirect } from "next/navigation";
+import { addTextErrors } from "../store/errorsStore/functions";
 
 export default function Page() {
   const [transForm, setTransForm] = useState(true)
-  const [errorList, setErrorList] = useState<string[]>([])
-  const [successList, setSuccessList] = useState<string>()
+
 
   const [login, setLogin] = useState(false)
 
@@ -30,15 +28,11 @@ export default function Page() {
     
     const result = await registerUser(username, email, password);
     if (!result.ok) {
-      setSuccessList("")
-      console.log("Error:", result.message);
       const errorText = validateErrorsServer(result.message)
-      if(errorText)setErrorList([errorText])
+      if(errorText)addTextErrors(errorText, "error")
       return;
     }
-    setErrorList([])
-    console.log("Register:", result);
-    setSuccessList(result.message)
+    addTextErrors(result.message, "success")
   }
   async function onLogin(email:string, password:string) {
     const result = await loginUser(email, password);
@@ -47,12 +41,10 @@ export default function Page() {
       setLogin(false)
       console.log("Error:", result.message);
       const errorText = validateErrorsServer(result.message)
-      if(errorText)setErrorList([errorText])
+      if(errorText)addTextErrors(errorText, "error")
       return;
     }
-    setErrorList([])
     setLogin(true)
-    console.log(result);
  }
 
 
@@ -68,11 +60,9 @@ export default function Page() {
 
     //handle errors
     if(errorsForm.length > 0) {
-      console.log(errorsForm)
-      setErrorList(errorsForm)
+      errorsForm.forEach(item => addTextErrors(item, "error"))
       return
     }
-    setErrorList([]);
 
     //sending to the data
     if(errorsForm.length === 0) {
@@ -89,8 +79,6 @@ export default function Page() {
 
   return (
     <div className="register">
-      {errorList && <ErrorList errors={errorList}/>}
-      {successList && <SuccessMsgs msg={successList}/>}
       <div className="register__card">
         <div className="starsRegIcon spin">
             <Image src={starsIcon} alt="" />
@@ -134,15 +122,11 @@ export default function Page() {
           {transForm ? 
           <>Need an account? <span onClick={()=>{
             setTransForm(false)
-            setErrorList([])
-            setSuccessList("")
           }
           }>Sign up</span></> 
           :
           <>Already have an account? <span onClick={()=>{
             setTransForm(true)
-            setErrorList([])
-            setSuccessList("")
           }
           }>Log in</span></>
           }

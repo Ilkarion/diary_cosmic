@@ -3,10 +3,10 @@ import "./newEntry.scss";
 import { useState, useEffect } from "react";
 import { Link } from "@/i18n/navigation";
 
-import { FeelingOption, ResearchTask, TodayData, Highlight } from "./entry-types/types";
+import { FeelingOption, ResearchTask, TodayData } from "../allTypes/typesTS";
 import Highlighter from "./components/highlighter/Highlighter";
 
-import { saveEditor, renderSaved, fetchDiary, fetchAllTags, fetchDiaryRecord, deleteDiaryRecord } from "./logicNewEntry/functions";
+import { saveEditor, renderSaved, fetchDiaryRecord, deleteDiaryRecord } from "../allFunctions/newEntry/functions";
 import Calendar from "./components/calendar/Calendar";
 import Feeling from "./components/feelings/Feeling";
 import TagsAdd from "./components/tags/TagsAdd";
@@ -15,6 +15,8 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 import { useTranslations } from "next-intl";
+import { addTextErrors } from "../store/errorsStore/functions";
+import { getRecords_TagsFrontEnd, setUpdateTrue } from "../store/recordsStore/functions";
 
 
 
@@ -47,10 +49,11 @@ export default function Page() {
 
   useEffect(() => {
     async function loadTags() {
-      const data = await fetchAllTags();
-      if (data) {
-        setAllTags(data.all_Tags);
-        setAllColorTags(data.all_Color_Tags);
+
+      const data_Tags = getRecords_TagsFrontEnd().diaryAllTags
+      if (data_Tags) {
+        setAllTags(data_Tags.all_Tags);
+        setAllColorTags(data_Tags.all_Color_Tags);
       }
     }
 
@@ -82,7 +85,7 @@ const deleteEditableRecord = ()=>{
   if(mode==="edit") {
     async function deleteAsyncRecord(id_record:string) {
       await deleteDiaryRecord(id_record)
-      alert("This record was deleted)!")
+      addTextErrors("This record was deleted)!", "success")
       router.push("/new-entry?mode=create")
       setSavedData({
         id_record: "",
@@ -99,8 +102,9 @@ const deleteEditableRecord = ()=>{
     const id_record = savedData?.id_record
     if(id_record){
       deleteAsyncRecord(id_record)
+      setUpdateTrue()
     } else {
-      alert("Sorry, we cant delete this record.\nBcs we cant find its id")
+      addTextErrors("Sorry, i can't delete this record.\nCan't find its id", "error")
     }
   }
 }
@@ -121,7 +125,7 @@ const handleSave = async () => {  // <- async функция
       setAllTags(data.all_Tags);
       setSavedData(data);
     }
-
+    addTextErrors("Record updated successfully", "success");
     router.push(`/new-entry?mode=create`);
   }
 
@@ -132,6 +136,7 @@ const handleSave = async () => {  // <- async функция
     );
 
     if (!data) return;
+    addTextErrors("New record created", "success")
 
     setTitle(data.title);
     setTasks(data.color_Tags);
@@ -142,6 +147,7 @@ const handleSave = async () => {  // <- async функция
     setAllTags(data.all_Tags);
     setAllColorTags(data.all_Color_Tags);
   }
+  setUpdateTrue()
 };
 
 

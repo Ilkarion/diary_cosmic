@@ -1,0 +1,76 @@
+.security-card {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--divine-line);
+  background-color: var(--bg-card);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.security-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1.25rem;
+  color: var(--text-color);
+}
+
+.security-icon {
+  width: 35px;
+  height: 35px;
+}
+
+.security-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.security-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.security-field label {
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--text-color-trans);
+}
+
+.security-field input {
+  padding: 0.625rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--outline-calendar);
+  background-color: var(--task-color-bg);
+  color: var(--text-color-newEntry);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+
+.security-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.5rem;
+  color: #fff;
+  background-image: linear-gradient(
+    to right,
+    var(--btn-gradient-left-color),
+    var(--btn-gradient-right-color)
+  );
+  cursor: pointer;
+}
+
+.security-btn:hover {
+  background-image: linear-gradient(to right, var(--btn-gradient-right-color), transparent);
+}
+
+.security-btn:active {
+  transform: scale(0.95);
+}
