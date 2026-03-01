@@ -2,7 +2,7 @@
 
 import "./highlighter.scss"
 import { useState } from "react";
-import { ResearchTask } from "../../entry-types/types";
+import { ResearchTask } from "@/app/[locale]/allTypes/typesTS";
 import Image from "next/image";
 import moreOptionsIcon from "@/public/imgs/more-options.svg"
 
