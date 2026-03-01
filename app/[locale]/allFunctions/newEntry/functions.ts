@@ -32,7 +32,7 @@ export const cleanHighlightsByGlobalColors = (
 export async function fetchDiary() {
   try {
     const request = () =>
-      fetch("https://your-book-backend-1.onrender.com/api/diary", {
+      fetch("https://your-book-backend.onrender.com/api/diary", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -57,7 +57,7 @@ export async function fetchDiary() {
 const addDiaryRecord = async (record: DiaryRecordPayload2) => {
   try {
     const request = () =>
-      fetch("https://your-book-backend-1.onrender.com/api/diary-send", {
+      fetch("https://your-book-backend.onrender.com/api/diary-send", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -85,7 +85,7 @@ const addDiaryRecord = async (record: DiaryRecordPayload2) => {
 // export async function fetchAllTags() {
 //   try {
 //     const request = () =>
-//       fetch("https://your-book-backend-1.onrender.com/api/diary-allTags", {
+//       fetch("https://your-book-backend.onrender.com/api/diary-allTags", {
 //         method: "POST",
 //         credentials: "include",
 //         headers: { "Content-Type": "application/json" },
@@ -115,7 +115,7 @@ const addDiaryRecord = async (record: DiaryRecordPayload2) => {
 
 //edit record
 export async function editDiaryRecord(record: TodayData) {
-  const res = await fetch("https://your-book-backend-1.onrender.com/api/diary-edit", {
+  const res = await fetch("https://your-book-backend.onrender.com/api/diary-edit", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -140,7 +140,7 @@ export async function editDiaryRecord(record: TodayData) {
 export async function fetchDiaryRecord(id: string) {
   try {
     const request = () =>
-      fetch(`https://your-book-backend-1.onrender.com/api/diary-record/${id}`, {
+      fetch(`https://your-book-backend.onrender.com/api/diary-record/${id}`, {
         credentials: "include",
       });
 
@@ -168,7 +168,7 @@ export async function fetchDiaryRecord(id: string) {
 export async function deleteDiaryRecord(id_record: string) {
   try {
     const request = () =>
-      fetch(`https://your-book-backend-1.onrender.com/api/diary-delete/${id_record}`, {
+      fetch(`https://your-book-backend.onrender.com/api/diary-delete/${id_record}`, {
         method: "DELETE",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

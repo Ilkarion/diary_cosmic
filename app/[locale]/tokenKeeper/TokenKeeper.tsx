@@ -12,7 +12,7 @@ export default function TokenKeeper() {
 
   const sendPing = async () => {
     try {
-      await fetch("https://your-book-backend-1.onrender.com/api/ping", {
+      await fetch("https://your-book-backend.onrender.com/api/ping", {
         credentials: "include"
       })
     } catch {}
@@ -22,7 +22,7 @@ export default function TokenKeeper() {
   const refreshToken = async () => {
     try {
       const res = await fetch(
-        "https://your-book-backend-1.onrender.com/api/refresh",
+        "https://your-book-backend.onrender.com/api/refresh",
         { method: "POST", credentials: "include" }
       )
       return res.ok

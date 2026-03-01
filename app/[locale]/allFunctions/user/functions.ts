@@ -1,7 +1,7 @@
 import { UserData } from "../../allTypes/typesTS"
 
 const API_URL =
-  "https://your-book-backend-1.onrender.com/api"
+  "https://your-book-backend.onrender.com/api"
 
 type UserInfoResult = {
   ok: boolean
