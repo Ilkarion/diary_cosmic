@@ -1,3 +1,5 @@
+import { API_URL } from "@/lib/api";
+
 export type FormFields = {
   username?: string;
   email?: string;
@@ -41,7 +43,7 @@ export function validate(data: FormFields, isLogin: boolean): string[] {
 //BackEnd sending data
 export async function registerUser(username: string, email: string, password: string) {
   try {
-    const res = await fetch("https://your-book-backend.onrender.com/api/register", {
+    const res = await fetch(`${API_URL}/api/register`, {
       method: "POST",
       credentials: "include", // accept cookies
       headers: {
@@ -59,7 +61,7 @@ export async function registerUser(username: string, email: string, password: st
 
 export async function loginUser(email: string, password: string) {
   try {
-    const res = await fetch("https://your-book-backend.onrender.com/api/login", {
+    const res = await fetch(`${API_URL}/api/login`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

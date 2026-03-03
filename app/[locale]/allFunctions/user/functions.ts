@@ -1,7 +1,5 @@
 import { UserData } from "../../allTypes/typesTS"
-
-const API_URL =
-  "https://your-book-backend.onrender.com/api"
+import { API_URL } from "@/lib/api"
 
 type UserInfoResult = {
   ok: boolean
@@ -15,7 +13,7 @@ export async function userInfo(): Promise<UserInfoResult> {
 
   try {
 
-    const res = await fetch(`${API_URL}/me`,
+    const res = await fetch(`${API_URL}/api/me`,
       {
         method: "GET",
         credentials: "include",

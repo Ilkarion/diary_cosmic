@@ -9,12 +9,19 @@ import Image from "next/image";
 
 //Icons
 import warningIcon from "@/public/imgs/warning.svg"
+import { deleteUser } from "@/app/[locale]/allFunctions/mySettings/functions";
 
 export default function DangerZone() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const handleDeleteAccount = () => {
+  const handleDeleteAccount = async () => {
     // Здесь можно вызвать NextAuth sign-out или API бэкенда
+    try {
+      const result = await deleteUser()
+      addTextErrors(result.message, "success")
+    } catch (e) {
+      if(e instanceof Error) addTextErrors(`Error: ${e.message}`, "error")
+    }
     addTextErrors("Account deleted", "success");
     setShowDeleteModal(false);
   };

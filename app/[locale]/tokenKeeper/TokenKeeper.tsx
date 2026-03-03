@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { addTextErrors } from "../store/errorsStore/functions"
-
+import { API_URL } from "@/lib/api"
 export default function TokenKeeper() {
 
   const lastFetchRef = useRef(0)
@@ -12,7 +12,7 @@ export default function TokenKeeper() {
 
   const sendPing = async () => {
     try {
-      await fetch("https://your-book-backend.onrender.com/api/ping", {
+      await fetch(`${API_URL}/api/ping`, {
         credentials: "include"
       })
     } catch {}
@@ -22,7 +22,7 @@ export default function TokenKeeper() {
   const refreshToken = async () => {
     try {
       const res = await fetch(
-        "https://your-book-backend.onrender.com/api/refresh",
+        `${API_URL}/api/refresh`,
         { method: "POST", credentials: "include" }
       )
       return res.ok
