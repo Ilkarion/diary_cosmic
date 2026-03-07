@@ -60,7 +60,7 @@ export default function TokenKeeper() {
         const refreshed = await refreshToken()
 
         if (refreshed) res = await originalFetch(input, init)
-        else router.push("/sign")
+        else router.push("/checkAuthUser")
       }
 
       if (!res.ok && res.status >= 500) {

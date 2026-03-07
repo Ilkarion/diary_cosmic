@@ -182,11 +182,9 @@ const handleSave = async () => {  // <- async функция
           value={title}
           onChange={(e)=>setTitle(e.target.value)}/>
 
-        <Calendar
-          date={date}
-          setDate={setDate}
-        />
-
+        {date && mode==="edit" &&<Calendar date={date} setDate={setDate} mode="edit"/>}
+        {mode==="create" &&<Calendar date={date} setDate={setDate} mode="create"/>}
+        
         <div className="feelingsWraper">
           <Feeling option="happy" feels={feel} setFeel={setFeel}/>
           <Feeling option="sad" feels={feel} setFeel={setFeel}/>

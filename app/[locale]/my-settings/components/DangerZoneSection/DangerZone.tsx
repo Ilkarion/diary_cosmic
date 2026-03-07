@@ -9,10 +9,12 @@ import Image from "next/image";
 
 //Icons
 import warningIcon from "@/public/imgs/warning.svg"
-import { deleteUser } from "@/app/[locale]/allFunctions/mySettings/functions";
+import { deleteUser, logoutUser } from "@/app/[locale]/allFunctions/mySettings/functions";
+import { useRouter } from "next/navigation";
 
 export default function DangerZone() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const router = useRouter()
 
   const handleDeleteAccount = async () => {
     // Здесь можно вызвать NextAuth sign-out или API бэкенда
@@ -24,7 +26,18 @@ export default function DangerZone() {
     }
     addTextErrors("Account deleted", "success");
     setShowDeleteModal(false);
+    router.push("/sign")
   };
+
+  async function logoutMe() {
+    const result = await logoutUser();
+    if (result.message === "Logged out") {
+      addTextErrors("User logged out successfully", "success")
+      router.push("/")
+    } else {
+      addTextErrors("Logout failed: ", result.message);
+    }
+  }
 
   return (
     <>
@@ -37,12 +50,16 @@ export default function DangerZone() {
           Once you delete your account, there is no going back. All your records,
           tags, and settings will be permanently destroyed. Please be certain.
         </p>
-        <button
-          className="danger-btn"
-          onClick={() => setShowDeleteModal(true)}
-        >
-          Delete Account
-        </button>
+        <div className="dangerBtns">
+          <button
+            className="danger-btn"
+            onClick={() => setShowDeleteModal(true)}
+          >
+            Delete Account
+          </button>
+          <button className="logoutDanger" onClick={()=>logoutMe()}>Logout</button>
+        </div>
+
       </section>
 
       {showDeleteModal && (

@@ -23,7 +23,7 @@ export default function ShowUser() {
         const res = await userInfo()
 
         if (!res.ok) {
-          router.push("/sign")
+          router.push("/checkAuthUser")
           return
         }
 

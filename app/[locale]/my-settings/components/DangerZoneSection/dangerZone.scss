@@ -131,3 +131,21 @@
 .modal-confirm:active {
   transform: scale(0.95);
 }
+
+.dangerBtns {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+
+  .logoutDanger {
+    background-image: linear-gradient(to right, rgb(121, 121, 255), rgb(121, 121, 255));
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover {
+      background-image: linear-gradient(to right, rgb(121, 121, 255), transparent);
+    }
+  }
+}

@@ -19,12 +19,12 @@ export default function ErrorHandler() {
         if (!res.ok) {
           if (res.status === 401 || res.status === 403) {
 
-            if (!cancelledRef.current) router.push("/sign")
+            if (!cancelledRef.current) router.push("/checkAuthUser")
           } else if (res.status >= 500) {
             // серверная ошибка
             addTextErrors(`Server error ${res.status}`, "error")
           } else if (res.status === 404) {
-            router.push("/sign")
+            router.push("/checkAuthUser")
           }
         }
         return res

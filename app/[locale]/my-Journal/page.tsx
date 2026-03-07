@@ -21,7 +21,7 @@ import Link from 'next/link';
 
 import { useTranslations } from 'next-intl';
 import { addTextErrors } from '../store/errorsStore/functions';
-import { getFetchedOnceStatus, getRecords_TagsFrontEnd, getUpdateStatus, setfetchedOnceTrue, setUpdateFalse } from '../store/recordsStore/functions';
+import { getFetchedOnceStatus, getRecords_TagsFrontEnd, getUpdateStatus, setfetchedOnceTrue, setRecords_TagsStore, setUpdateFalse } from '../store/recordsStore/functions';
 
 const nodeTypes = { showInfo: ShowInfoNode };
 
@@ -84,10 +84,11 @@ useEffect(() => {
 
       let data: AllTags_Records;
 
-      if (shouldFetch) {
+      if (shouldFetch) { //update store diary HERE needed
         data = await fetchDiary(); // fetch только при необходимости
         setUpdateFalse();
         setfetchedOnceTrue(); // помечаем, что fetch сделали
+        setRecords_TagsStore(data)
       } else {
         data = frontData;
       }

@@ -1,81 +1,68 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./calendar.scss";
-
 import { useTranslations } from "next-intl";
 
 export default function Calendar({
   date,
   setDate,
+  mode, // "edit" | "create"
 }: {
   date: string;
   setDate: React.Dispatch<React.SetStateAction<string>>;
+  mode: string;
 }) {
-  const t = useTranslations("NewEntryPage")
-  const [open, setOpen] = useState(false);
-  const popupRef = useRef<HTMLDivElement | null>(null);
+  const t = useTranslations("NewEntryPage");
 
-  const openCalendar = () => {
-    setOpen(true);
+  const getToday = () => {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
   };
 
-  // закрытие при клике вне
-  useEffect(() => {
-    if (!open) return;
+  const formatNice = (value: string) =>
+    new Date(value).toLocaleDateString(t("dateLocal"), {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
 
-    function handleClickOutside(e: MouseEvent) {
-      if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    }
+  const formatDefault = (value: string) => {
+    const d = new Date(value);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [open]);
+  // хуки вызываем всегда
+  const initialDate = mode === "create" ? getToday() : formatDefault(date || getToday());
+  const [internalDate, setInternalDate] = useState(initialDate);
 
+  const handleDateChange = (value: string) => {
+    setInternalDate(value);
+    setDate(formatNice(value));
+  };
 
-
-const handleOk = () => {
-  const d = new Date(date);
-  const nice = d.toLocaleDateString(t("dateLocal"), {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-  setDate(nice);
-  setOpen(false);
-};
+  useEffect(()=>{
+    const goodLookingDate = formatNice(internalDate)
+    setDate(goodLookingDate)
+  }, [])
 
   return (
     <div className="date-picker">
-      {!date && (
-        <button className="open-btn" onClick={openCalendar}>
-          {t("date")}
-        </button>
-      )}
-
-      {open && (
-        <div className="popup" ref={popupRef}>
-          <input
-            title="-"
-            type="date"
-            className="calendar"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-          <button className="ok-btn" onClick={handleOk}>
-            OK
-          </button>
-        </div>
-      )}
-
-      {date && (
-        <p className="result" onClick={openCalendar}>
-          {date}
-        </p>
-      )}
+      <input
+        title="-"
+        type="date"
+        className="calendar"
+        value={internalDate}
+        onChange={(e) => handleDateChange(e.target.value)}
+      />
+      {date && <p className="result">{date}</p>}
     </div>
   );
 }

@@ -65,3 +65,24 @@ export async function changeEmailRequest(newEmail: string) {
   if (!res.ok) throw new Error(data.message);
   return data;
 }
+
+
+export async function logoutUser() {
+  try {
+    const response = await fetch(`${API_URL}/api/logout`, {
+      method: "POST",
+      credentials: "include", // куки
+    });
+
+    if (!response.ok) {
+      const errData = await response.json();
+      throw new Error(errData.message || "Logout failed");
+    }
+
+    return await response.json();
+  } catch (error) {
+    if(error instanceof Error) {
+      return { message: error.message };
+    }
+  }
+}
