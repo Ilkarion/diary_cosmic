@@ -26,7 +26,7 @@ export default function RecentEntries({ diaryRecord }: { diaryRecord: dailyRecor
     const pick = {
         happy: "😆",
         sad: "😔",
-        peacful: "😌",
+        peaceful: "😌",
         frustrated: "😤",
         thoughtful: "🧐",
         inspired: "✨",

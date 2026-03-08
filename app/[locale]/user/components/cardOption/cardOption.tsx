@@ -61,6 +61,9 @@ export default function CardOption({option, mode="default", id_record="default"}
         if(option==="Settings") {
             redirect('/my-settings')
         }
+        if(option==="Mood Tracker") {
+            redirect('/mood-tracker')
+        }
     }
 
     return(

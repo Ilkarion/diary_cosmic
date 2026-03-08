@@ -14,7 +14,7 @@ import { addTextErrors } from "../store/errorsStore/functions";
 
 export default function Page() {
   const [transForm, setTransForm] = useState(true)
-
+  const [wait, setWait] = useState(false)
 
   const [login, setLogin] = useState(false)
 
@@ -32,6 +32,7 @@ export default function Page() {
       if(errorText)addTextErrors(errorText, "error")
       return;
     }
+    setWait(false)
     addTextErrors(result.message, "success")
   }
   async function onLogin(email:string, password:string) {
@@ -44,11 +45,13 @@ export default function Page() {
       if(errorText)addTextErrors(errorText, "error")
       return;
     }
+    setWait(false)
     setLogin(true)
  }
 
 
   function handleSign(e: React.FormEvent<HTMLFormElement>) {
+    setWait(true)
     //getting information from form
     e.preventDefault()
     const form = e.currentTarget; 
@@ -115,7 +118,13 @@ export default function Page() {
             <input name="password" type="password" placeholder="••••••••" />
           </div>
 
-          <button type="submit" className="register__btn">{transForm ? "Launch Into Space" : "Create Account"}</button>
+          <button 
+            disabled={wait}
+            type="submit" 
+            className="register__btn"
+          >
+            {transForm ? "Launch Into Space" : "Create Account"}
+          </button>
         </form>
 
         <p className="register__footer">

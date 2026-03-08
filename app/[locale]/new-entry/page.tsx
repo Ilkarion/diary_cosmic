@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 
 import { useTranslations } from "next-intl";
 import { addTextErrors } from "../store/errorsStore/functions";
-import { getRecords_TagsFrontEnd, setUpdateTrue } from "../store/recordsStore/functions";
+import { getRecords_TagsBackEnd, getRecords_TagsFrontEnd, setUpdateTrue } from "../store/recordsStore/functions";
 
 
 
@@ -51,9 +51,14 @@ export default function Page() {
     async function loadTags() {
 
       const data_Tags = getRecords_TagsFrontEnd().diaryAllTags
-      if (data_Tags) {
+      if (data_Tags && data_Tags.all_Color_Tags.length > 0) {
         setAllTags(data_Tags.all_Tags);
         setAllColorTags(data_Tags.all_Color_Tags);
+      } else {
+        await getRecords_TagsBackEnd()
+        const data_TagsRecords = getRecords_TagsFrontEnd().diaryAllTags
+        setAllTags(data_TagsRecords.all_Tags);
+        setAllColorTags(data_TagsRecords.all_Color_Tags);
       }
     }
 
@@ -188,7 +193,7 @@ const handleSave = async () => {  // <- async функция
         <div className="feelingsWraper">
           <Feeling option="happy" feels={feel} setFeel={setFeel}/>
           <Feeling option="sad" feels={feel} setFeel={setFeel}/>
-          <Feeling option="peacful" feels={feel} setFeel={setFeel}/>
+          <Feeling option="peaceful" feels={feel} setFeel={setFeel}/>
           <Feeling option="frustrated" feels={feel} setFeel={setFeel}/>
           <Feeling option="thoughtful" feels={feel} setFeel={setFeel}/>
           <Feeling option="inspired" feels={feel} setFeel={setFeel}/>

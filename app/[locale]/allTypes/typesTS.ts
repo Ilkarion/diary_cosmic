@@ -33,7 +33,7 @@ export type Highlight = {
 export type FeelingOption =
   | "happy"
   | "sad"
-  | "peacful"
+  | "peaceful"
   | "frustrated"
   | "thoughtful"
   | "inspired"; 

@@ -19,7 +19,7 @@ export default function Feeling({
   const pick: Record<FeelingOption, string> = {
     happy: `😆${t("feel1")}`,
     sad: `😔${t("feel2")}`,
-    peacful: `😌${t("feel3")}`,
+    peaceful: `😌${t("feel3")}`,
     frustrated: `😤${t("feel4")}`,
     thoughtful: `🧐${t("feel5")}`,
     inspired: `✨${t("feel6")}`,

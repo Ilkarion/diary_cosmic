@@ -71,8 +71,8 @@ export default function Page() {
                     <CardOption option={"New Entry"} mode="create"/>
                     <CardOption option={"My Journal"}/>
                     <CardOption option={"Mood Tracker"}/>
-                    <CardOption option={"Statistics"}/>
-                    <CardOption option={"Discover"}/>
+                    {/* <CardOption option={"Statistics"}/> */}
+                    {/* <CardOption option={"Discover"}/> */}
                     <CardOption option={"Settings"}/>
                 </div>
             </div>

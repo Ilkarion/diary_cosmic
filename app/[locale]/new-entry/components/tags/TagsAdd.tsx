@@ -85,8 +85,7 @@ function addTag(tag: string) {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    const ok = confirm(`Delete tag "${tag_name}" globally?`);
-                    if (ok) removeGlobalTag(tag_name);
+                    removeGlobalTag(tag_name);
                     setActiveMenuTag(null);
                   }}
                 >

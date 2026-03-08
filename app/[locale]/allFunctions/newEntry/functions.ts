@@ -293,7 +293,7 @@ export const saveEditor = async (
   return {
     id_record: "",
     title:"",
-    date:"",
+    date:date,
     feels: [],
     tags: [],
     color_Tags: [],
