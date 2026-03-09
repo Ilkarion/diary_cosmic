@@ -1,4 +1,4 @@
-import {getTranslations} from 'next-intl/server';
+
 
 import starsIcon from "@/public/imgs/stars.svg"
 import telescopeWhiteIcon from "@/public/imgs/telescopeWhite.svg"

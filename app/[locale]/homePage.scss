@@ -83,6 +83,12 @@
   margin-top: 10vh;
   padding-bottom: 50px;
   gap: 30px;
+
+  @media(width <= 670px) {
+    & {
+      flex-wrap: wrap;
+    }
+  }
 }
 
 

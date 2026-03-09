@@ -150,33 +150,33 @@
 }
 
 
-//drop down feelings::after
-.feelingsWraper{
+//drop down feelings
+.feelingsWraper {
   width: 100%;
 }
 
 /* desktop layout */
-.feelingsDesktop{
+.feelingsDesktop {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
 /* dropdown hidden by default */
-.feelingsDropdown{
+.feelingsDropdown {
   display: none;
   position: relative;
 }
 
 /* dropdown styles */
-.feelingsDropdownBtn{
+.feelingsDropdownBtn {
   width: 100%;
   padding: 12px 16px;
 
-  background: linear-gradient(145deg, #171225, #130127);
-  color: var( --text-name-card);
+  background: var(--feel-bg);
+  color: var(--text-name-card);
 
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--border-input-calendar);
   border-radius: 12px;
 
   font-size: 14px;
@@ -188,24 +188,24 @@
   transition: all 0.2s ease;
 
   box-shadow:
-    0 4px 10px rgba(0,0,0,0.25),
-    inset 0 0 0 1px rgba(255,255,255,0.04);
+    0 4px 10px var(--wrapper-box-shadow),
+    inset 0 0 0 1 rgba(255,255,255,0.04);
 }
 
-
-.feelingsDropdownBtn:active{
+.feelingsDropdownBtn:active {
   box-shadow:
-    0 2px 6px rgba(0,0,0,0.3),
-    inset 0 0 0 1px rgba(255,255,255,0.03);
+    0 2px 6px var(--wrapper-box-shadow),
+    inset 0 0 0 1 rgba(255,255,255,0.03);
 }
 
-.feelingsDropdownBtn::after{
+.feelingsDropdownBtn::after {
   content: "▼";
   float: right;
   font-size: 1rem;
   opacity: 0.7;
 }
-.feelingsDropdownMenu{
+
+.feelingsDropdownMenu {
   position: absolute;
   top: 110%;
   left: 0;
@@ -217,22 +217,42 @@
   flex-direction: column;
   gap: 6px;
 
-  background: var(--bg-primary);
+  background: var(--panel-bg);
   border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 30px var(--wrapper-box-shadow);
   width: 320px;
   z-index: 50;
 }
 
-/* MOBILE */
-@media (max-width: 520px){
+/* Feel button inside wrapper */
+.feel {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--text-name-card);
+  background: var(--feel-bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border-input-calendar);
+}
 
-  .feelingsDesktop{
+.feel:hover {
+  background: var(--feel-hover);
+}
+
+.feel.selected {
+  background: var(--feel-selected);
+  border-color: var(--icon-color);
+}
+
+/* MOBILE */
+@media (max-width: 520px) {
+  .feelingsDesktop {
     display: none;
   }
 
-  .feelingsDropdown{
+  .feelingsDropdown {
     display: block;
   }
-
 }
