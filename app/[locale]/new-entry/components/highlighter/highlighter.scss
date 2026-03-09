@@ -2,7 +2,10 @@
   display: flex;
   gap: 10px; 
 
-
+  .text-color-picker {
+    display: flex;
+    flex-direction: row;
+  }
   .textFieldColor {
     display: flex;
     flex-direction: row;
@@ -19,6 +22,11 @@
     height: 27px;
     position: absolute;
     right: 10px;
+  }
+    @media(width <=440px) {
+    & {
+      flex-direction: column;
+    }
   }
 }
 

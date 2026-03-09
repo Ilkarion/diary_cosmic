@@ -44,6 +44,8 @@ export default function Page() {
 
   //waiting for server saved data---------------------
   const [saving, setSaving] = useState(false)
+
+  const [feelMenuOpen, setFeelMenuOpen] = useState(false);
   
   const mode = searchParams.get('mode') ?? 'create';
 
@@ -190,14 +192,43 @@ const handleSave = async () => {  // <- async функция
         {date && mode==="edit" &&<Calendar date={date} setDate={setDate} mode="edit"/>}
         {mode==="create" &&<Calendar date={date} setDate={setDate} mode="create"/>}
         
-        <div className="feelingsWraper">
-          <Feeling option="happy" feels={feel} setFeel={setFeel}/>
-          <Feeling option="sad" feels={feel} setFeel={setFeel}/>
-          <Feeling option="peaceful" feels={feel} setFeel={setFeel}/>
-          <Feeling option="frustrated" feels={feel} setFeel={setFeel}/>
-          <Feeling option="thoughtful" feels={feel} setFeel={setFeel}/>
-          <Feeling option="inspired" feels={feel} setFeel={setFeel}/>
-        </div>
+<div className="feelingsWraper">
+
+  {/* Desktop version */}
+  <div className="feelingsDesktop">
+    <Feeling option="happy" feels={feel} setFeel={setFeel}/>
+    <Feeling option="sad" feels={feel} setFeel={setFeel}/>
+    <Feeling option="peaceful" feels={feel} setFeel={setFeel}/>
+    <Feeling option="frustrated" feels={feel} setFeel={setFeel}/>
+    <Feeling option="thoughtful" feels={feel} setFeel={setFeel}/>
+    <Feeling option="inspired" feels={feel} setFeel={setFeel}/>
+  </div>
+
+  {/* Mobile dropdown */}
+  <div className="feelingsDropdown">
+    <button
+      type="button"
+      className="feelingsDropdownBtn"
+      onClick={() => setFeelMenuOpen((p) => !p)}
+    >
+      {feel.length ? feel.join(", ") : "Select feelings"}
+    </button>
+
+    {feelMenuOpen && (
+      <div className="feelingsDropdownMenu">
+        <Feeling option="happy" feels={feel} setFeel={setFeel}/>
+        <Feeling option="sad" feels={feel} setFeel={setFeel}/>
+        <Feeling option="peaceful" feels={feel} setFeel={setFeel}/>
+        <Feeling option="frustrated" feels={feel} setFeel={setFeel}/>
+        <Feeling option="thoughtful" feels={feel} setFeel={setFeel}/>
+        <Feeling option="inspired" feels={feel} setFeel={setFeel}/>
+      </div>
+    )}
+  </div>
+
+</div>
+
+        
 
         <ColorResearch
         setHighLights={setHighLights}

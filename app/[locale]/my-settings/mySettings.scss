@@ -1,6 +1,7 @@
 .linkReturn {
   margin: 10px 0px 20px 10px;
   position: fixed;
+  z-index: 9991;
   a {
     display: inline-flex;
 
@@ -22,6 +23,11 @@
 
     &:active {
       transform: scale(0.97);
+    }
+  }
+  @media(width <= 920px) {
+    & > a {
+      background-color: var(--settings-btn-return);
     }
   }
 }

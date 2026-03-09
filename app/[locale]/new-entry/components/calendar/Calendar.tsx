@@ -9,20 +9,22 @@ export default function Calendar({
   setDate,
   mode, // "edit" | "create"
 }: {
-  date: string;
+  date: string; // ISO date: YYYY-MM-DD
   setDate: React.Dispatch<React.SetStateAction<string>>;
   mode: string;
 }) {
   const t = useTranslations("NewEntryPage");
 
+  // --- get today's ISO date ---
   const getToday = () => {
     const d = new Date();
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, "0");
     const day = String(d.getDate()).padStart(2, "0");
-    return `${y}-${m}-${day}`;
+    return `${y}-${m}-${day}`; // YYYY-MM-DD
   };
 
+  // --- format date for display only ---
   const formatNice = (value: string) =>
     new Date(value).toLocaleDateString(t("dateLocal"), {
       weekday: "long",
@@ -39,19 +41,22 @@ export default function Calendar({
     return `${y}-${m}-${day}`;
   };
 
-  // хуки вызываем всегда
-  const initialDate = mode === "create" ? getToday() : formatDefault(date || getToday());
+  // --- initial ISO date for input ---
+  const initialDate =
+    mode === "create" ? getToday() : formatDefault(date || getToday());
+
   const [internalDate, setInternalDate] = useState(initialDate);
 
+  // --- handle change ---
   const handleDateChange = (value: string) => {
     setInternalDate(value);
-    setDate(formatNice(value));
+    setDate(value); // store ISO date only, safe for filtering
   };
 
-  useEffect(()=>{
-    const goodLookingDate = formatNice(internalDate)
-    setDate(goodLookingDate)
-  }, [])
+  // --- sync on mount ---
+  useEffect(() => {
+    setDate(internalDate); // make sure parent state is set
+  }, []);
 
   return (
     <div className="date-picker">
@@ -62,7 +67,7 @@ export default function Calendar({
         value={internalDate}
         onChange={(e) => handleDateChange(e.target.value)}
       />
-      {date && <p className="result">{date}</p>}
+      {internalDate && <p className="result">{formatNice(internalDate)}</p>}
     </div>
   );
 }

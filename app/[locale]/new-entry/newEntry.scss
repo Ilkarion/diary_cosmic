@@ -1,16 +1,26 @@
 .main-wraper-new-entry {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 100px;
 }
 
 .header-wrapper-newEntry {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   justify-content: space-between;
+
+  @media(width <=720px) {
+    & {
+      margin-top: 30px;
+      flex-direction: column;
+    }
+  }
 }
 
 .headerNewEntry {
@@ -22,6 +32,7 @@
 
   & > span {
     margin-left: 30px;
+    font-size: 1.3rem;
   }
 
   & > a {
@@ -54,6 +65,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  gap: 15px;
   justify-content: space-between;
   margin-bottom: 30px;
 }
@@ -61,6 +73,12 @@
 .highlighter-wrapper {
     height: 100%;
     padding: 20px 40px 0px 0px;
+
+      @media(width <= 720px) {
+    & {
+      padding: 40px 0px 0px 0px;
+    }
+  }
 }
 
 
@@ -132,3 +150,89 @@
 }
 
 
+//drop down feelings::after
+.feelingsWraper{
+  width: 100%;
+}
+
+/* desktop layout */
+.feelingsDesktop{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* dropdown hidden by default */
+.feelingsDropdown{
+  display: none;
+  position: relative;
+}
+
+/* dropdown styles */
+.feelingsDropdownBtn{
+  width: 100%;
+  padding: 12px 16px;
+
+  background: linear-gradient(145deg, #171225, #130127);
+  color: var( --text-name-card);
+
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+  text-align: left;
+
+  transition: all 0.2s ease;
+
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.25),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+
+.feelingsDropdownBtn:active{
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.3),
+    inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+
+.feelingsDropdownBtn::after{
+  content: "▼";
+  float: right;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+.feelingsDropdownMenu{
+  position: absolute;
+  top: 110%;
+  left: 0;
+
+  width: 100%;
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  background: var(--bg-primary);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  width: 320px;
+  z-index: 50;
+}
+
+/* MOBILE */
+@media (max-width: 520px){
+
+  .feelingsDesktop{
+    display: none;
+  }
+
+  .feelingsDropdown{
+    display: block;
+  }
+
+}

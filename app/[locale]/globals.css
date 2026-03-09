@@ -16,7 +16,6 @@ body {
 
   /* for side Panel */
   --bg: #070617;
-  --panel-bg: rgba(255,255,255,0.02);
   --outline: rgba(155,124,255,0.12);
   --glow-start: #9B7CFF;
   --glow-end: #FF6EC7;
@@ -55,6 +54,8 @@ body {
 }
 
 [data-theme="dark"] {
+    --settings-btn-return: #27004e;
+    --panel-bg: #0E1032;
     --background: #0B0119;
     --background-trans: #0b011978;
     --text-color-trans: #e1cbf7ca;
@@ -126,6 +127,8 @@ body {
 }
 
 [data-theme="light"] {
+    --settings-btn-return: #ffffff;
+    --panel-bg: rgb(255, 255, 255);
     --background: #F1F5FE;
     --background-trans: #fcfcfc;
     --text-color-trans: #9C5ECB;

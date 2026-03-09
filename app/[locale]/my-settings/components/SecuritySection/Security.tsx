@@ -7,10 +7,15 @@ import Image from "next/image";
 //Icons
 import keyIcon from "@/public/imgs/password.svg"
 import { changePassword } from "@/app/[locale]/allFunctions/mySettings/functions";
+import { useTranslations } from "next-intl";
 export default function Security() {
-    const [currentPassword, setCurrentPassword] = useState("")
-    const [newPassword, setNewPassword] = useState("")
-const handleSavePassword = async (e: React.FormEvent<HTMLFormElement>) => {
+
+  const t = useTranslations("SettingsPage.Security")
+
+  const [currentPassword, setCurrentPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+
+  const handleSavePassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       if (!currentPassword || !newPassword) {
@@ -44,32 +49,32 @@ const handleSavePassword = async (e: React.FormEvent<HTMLFormElement>) => {
   return (
     <section className="security-card">
       <h3 className="security-title">
-        <div className="security-icon"><Image src={keyIcon} alt=""/></div> Security
+        <div className="security-icon"><Image src={keyIcon} alt=""/></div> {t("Header")}
       </h3>
       <form onSubmit={handleSavePassword} className="security-form">
         <div className="security-field">
-          <label htmlFor="current-password">Current Password</label>
+          <label htmlFor="current-password">{t("pas1Header")}</label>
           <input
             id="current-password"
             type="password"
-            placeholder="Enter current password"
+            placeholder={t("pas1PlaceHolder")}
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
             
           />
         </div>
         <div className="security-field">
-          <label htmlFor="new-password">New Password</label>
+          <label htmlFor="new-password">{t("pas2Header")}</label>
           <input
             id="new-password"
             type="password"
-            placeholder="Enter new password"
+            placeholder={t("pas2PlaceHolder")}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
           />
         </div>
         <button type="submit" className="security-btn">
-          Update Password
+          {t("btn")}
         </button>
       </form>
     </section>

@@ -83,12 +83,12 @@
     "date": "Date",
     "dateLocal": "en-US",
     "feelings": {
-      "feel1": "Happy",
-      "feel2": "Sad",
-      "feel3": "Peaceful",
-      "feel4": "Frustrated",
-      "feel5": "Thoughtful",
-      "feel6": "Inspired"
+      "Happy": "Happy",
+      "Sad": "Sad",
+      "Peaceful": "Peaceful",
+      "Frustrated": "Frustrated",
+      "Thoughtful": "Thoughtful",
+      "Inspired": "Inspired"
     },
     "deleteOptions": {
       "option1": "Remove from this record",
@@ -98,6 +98,43 @@
       "title": "Tags",
       "placeholder": "To add tag press Enter"
     }
+  },
+  "SettingsPage": {
+    "Profile": {
+      "header": "Profile",
+      "field_email": "Email",
+      "email_placeholder": "Enter your new email",
+      "field_nickname": "Nickname",
+      "nickname_placeholder": "Enter your new nickname",
+      "btn": "Save Profile"
+    },
+    "Security": {
+      "Header": "Security",
+      "pas1Header": "Current Password",
+      "pas1PlaceHolder": "Enter current password",
+      "pas2Header": "New Password",
+      "pas2PlaceHolder": "Enter new password",
+      "btn": "Update Password"
+    },
+    "DangerZone": {
+      "Header": "Danger Zone",
+      "danger_text": "Once you delete your account, there is no going back. All your records, tags, and settings will be permanently destroyed. Please be certain.",
+      "delete_btn": "Delete Account",
+      "delete_question": "Are you absolutely sure?",
+      "delete_question_explain": "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
+      "delete_delete": "Yes, delete my account",
+      "dalete_cancel": "Cancel",
+      "logout_btn": "Logout"
+    }
+  },
+  "Mood_Tracker": {
+    "backBtn": "Back",
+    "Header": "Emotions",
+    "Header_Streak": "day streak",
+    "total_moods": "Total Moods",
+    "Current_streak": "Current Streak",
+    "days": "days",
+    "Popular_Mood": "Most Popular Mood:"
   }
 
 }

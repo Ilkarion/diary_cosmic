@@ -12,8 +12,12 @@ import { changeEmailRequest, changeUsername } from "@/app/[locale]/allFunctions/
 import { userInfo } from "@/app/[locale]/allFunctions/user/functions"
 
 import { useRouter } from "next/navigation"
+import { useTranslations } from "next-intl"
 
 export default function Profile() {
+
+  const t = useTranslations("SettingsPage.Profile")
+
 
   const router = useRouter()
 
@@ -96,35 +100,35 @@ export default function Profile() {
         <div className="profile-icon">
           <Image src={personIcon} alt="" />
         </div>
-        Profile
+        {t("header")}
       </h3>
 
       <form onSubmit={handleSaveProfile} className="profile-form">
 
         <div className="profile-field">
-          <label htmlFor="nickname">Nickname</label>
+          <label htmlFor="nickname">{t("field_nickname")}</label>
           <input
             id="nickname"
             type="text"
-            placeholder="Enter your new nickname"
+            placeholder={t("nickname_placeholder")}
             value={nickname}
             onChange={e => setNickname(e.target.value)}
           />
         </div>
 
         <div className="profile-field">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">{t("field_email")}</label>
           <input
             id="email"
             type="email"
-            placeholder="Enter your new email"
+            placeholder={t("email_placeholder")}
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
         </div>
 
         <button type="submit" className="profile-btn">
-          Save Profile
+          {t("btn")}
         </button>
 
       </form>

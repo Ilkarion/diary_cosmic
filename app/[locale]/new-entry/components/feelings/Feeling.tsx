@@ -17,12 +17,12 @@ export default function Feeling({
 }) {
   const t = useTranslations("NewEntryPage.feelings")
   const pick: Record<FeelingOption, string> = {
-    happy: `😆${t("feel1")}`,
-    sad: `😔${t("feel2")}`,
-    peaceful: `😌${t("feel3")}`,
-    frustrated: `😤${t("feel4")}`,
-    thoughtful: `🧐${t("feel5")}`,
-    inspired: `✨${t("feel6")}`,
+    happy: `😆${t("Happy")}`,
+    sad: `😔${t("Sad")}`,
+    peaceful: `😌${t("Peaceful")}`,
+    frustrated: `😤${t("Frustrated")}`,
+    thoughtful: `🧐${t("Thoughtful")}`,
+    inspired: `✨${t("Inspired")}`,
   };
 
   const isSelected = feels.includes(option);

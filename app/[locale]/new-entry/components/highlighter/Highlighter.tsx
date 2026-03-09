@@ -66,26 +66,27 @@ export default function Highlighter(
   return (
     <>
       <div className="task-creator">
-        <div className="textFieldColor">
+        <div className="text-color-picker">
+          <div className="textFieldColor">
+              <input
+                className="input"
+                placeholder={t("highlighterPlaceHolder")}
+                value={newTaskName}
+                onChange={(e) => setNewTaskName(e.target.value)}
+              />
+              <div className="moreOptionsIcon" onClick={()=>setAccess(!access)}>
+                  <Image src={moreOptionsIcon} alt="available colors"/>
+              </div>
+          </div>
+          <div className="wrapper-picker">
             <input
-              className="input"
-              placeholder={t("highlighterPlaceHolder")}
-              value={newTaskName}
-              onChange={(e) => setNewTaskName(e.target.value)}
+              title="color"
+              type="color"
+              className="colorPick"
+              value={newTaskColor}
+              onChange={(e) => setNewTaskColor(e.target.value)}
             />
-            <div className="moreOptionsIcon" onClick={()=>setAccess(!access)}>
-                <Image src={moreOptionsIcon} alt="available colors"/>
-            </div>
-        </div>
-
-        <div className="wrapper-picker">
-          <input
-            title="color"
-            type="color"
-            className="colorPick"
-            value={newTaskColor}
-            onChange={(e) => setNewTaskColor(e.target.value)}
-          />
+          </div>
         </div>
 
         <button

@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useState, useEffect, useMemo, useCallback } from "react"
 import { ArrowLeft, Calendar as CalendarIcon, Sparkles } from "lucide-react"
@@ -7,35 +7,35 @@ import { fetchDiary } from "../allFunctions/newEntry/functions"
 import { addTextErrors } from "../store/errorsStore/functions"
 import Link from "next/link"
 import { getRecords_TagsFrontEnd, setRecords_TagsStore, setUpdateFalse } from "../store/recordsStore/functions"
+import { useTranslations } from "next-intl"
 
 interface RecordEntry {
   id_record: string
   date: string
-  feels: string[]
+  feels: string[] // всегда английские метки
   color_Tags: { name: string; color: string }[]
 }
 
 interface Mood {
   emoji: string
-  label: string
+  label: string // английская метка
   color: string
   glowColor: string
 }
 
 const MOODS: Mood[] = [
   { emoji: "😊", label: "happy", color: "#fbbf24", glowColor: "rgba(251,191,36,0.5)" },
-  { emoji: "😢", label: "sad", color: "#3b82f6", glowColor: "rgba(59,130,246,0.5)" },
+  { emoji: "😔", label: "sad", color: "#3b82f6", glowColor: "rgba(59,130,246,0.5)" },
   { emoji: "😌", label: "peaceful", color: "#10b981", glowColor: "rgba(16,185,129,0.5)" },
   { emoji: "😤", label: "frustrated", color: "#ef4444", glowColor: "rgba(239,68,68,0.5)" },
-  { emoji: "🤔", label: "thoughtful", color: "#a855f7", glowColor: "rgba(168,85,247,0.5)" },
+  { emoji: "🧐", label: "thoughtful", color: "#a855f7", glowColor: "rgba(168,85,247,0.5)" },
   { emoji: "✨", label: "inspired", color: "#ec4899", glowColor: "rgba(236,72,153,0.5)" },
 ]
 
-function Button({ children, onClick }: { children: React.ReactNode, onClick?: () => void }) {
-  return <button className="custom-button" onClick={onClick}>{children}</button>
-}
+export default function MoodTracker() {
+  const tMood = useTranslations("Mood_Tracker")
+  const tFeel = useTranslations("NewEntryPage.feelings")
 
-export default function Page() {
   const [diaryRecords, setDiaryRecords] = useState<RecordEntry[]>([])
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedColors, setSelectedColors] = useState<string[]>([])
@@ -44,29 +44,20 @@ export default function Page() {
     async function initData() {
       try {
         const dataFront = getRecords_TagsFrontEnd()
-
-        if (dataFront && Array.isArray(dataFront.diaryRecords) && dataFront.diaryRecords.length > 0) {
-          // Берем данные из Zustand
+        if (dataFront?.diaryRecords?.length) {
           setDiaryRecords(dataFront.diaryRecords)
         } else {
-          // Если данных нет, делаем fetch
           const data = await fetchDiary()
-
-          if (data && Array.isArray(data.diaryRecords)) {
-            // Сохраняем в Zustand
+          if (data?.diaryRecords?.length) {
             setRecords_TagsStore(data)
-            // Сохраняем локально
             setDiaryRecords(data.diaryRecords)
             setUpdateFalse()
-          } else {
-            console.warn("Fetch diary returned invalid structure", data)
           }
         }
       } catch (error) {
         addTextErrors(`Failed to fetch diary: ${error}`, "error")
       }
     }
-
     initData()
   }, [])
 
@@ -77,13 +68,19 @@ export default function Page() {
   }, [diaryRecords])
 
   const filteredRecords = useMemo(() => {
-    if (selectedColors.length === 0) return diaryRecords
+    if (!selectedColors.length) return diaryRecords
     return diaryRecords.filter(r => r.color_Tags.some(tag => selectedColors.includes(tag.name)))
   }, [diaryRecords, selectedColors])
 
   const getMoodForDate = useCallback((date: Date) => {
-    const dateStr = date.toISOString().split("T")[0]
-    const dayRecords = filteredRecords.filter(r => new Date(r.date).toISOString().split("T")[0] === dateStr)
+    const targetDay = { y: date.getFullYear(), m: date.getMonth(), d: date.getDate() }
+    const dayRecords = filteredRecords.filter(r => {
+      const rDate = new Date(r.date)
+      if (isNaN(rDate.getTime())) return false
+      return rDate.getFullYear() === targetDay.y &&
+             rDate.getMonth() === targetDay.m &&
+             rDate.getDate() === targetDay.d
+    })
     const feels: string[] = []
     dayRecords.forEach(r => feels.push(...r.feels))
     return Array.from(new Set(feels)).slice(0, 3)
@@ -101,10 +98,12 @@ export default function Page() {
     for (let i = 0; i < 42; i++) {
       const moods = getMoodForDate(cur)
       days.push({
-        date: new Date(cur),
+        date: new Date(cur.getFullYear(), cur.getMonth(), cur.getDate()),
         moods,
         isCurrentMonth: cur.getMonth() === month,
-        isToday: cur.toDateString() === new Date().toDateString()
+        isToday: cur.getFullYear() === new Date().getFullYear() &&
+                 cur.getMonth() === new Date().getMonth() &&
+                 cur.getDate() === new Date().getDate()
       })
       cur.setDate(cur.getDate() + 1)
     }
@@ -137,59 +136,57 @@ export default function Page() {
   }, [filteredRecords, currentMonth])
 
   const getMoodEmoji = (label: string) => MOODS.find(m => m.label === label)?.emoji || ""
+  const getMoodText = (label: string) => tFeel(label.charAt(0).toUpperCase() + label.slice(1))
 
   return (
     <div className="mood-tracker">
       <div className="content">
         <div className="header">
           <div className="header-left">
-            <Link href={"/user"}><ArrowLeft /> Back</Link>
-            <h1>Emotional Cosmos</h1>
+            <Link href={"/user"}><ArrowLeft /> {tMood("backBtn")}</Link>
+            <h1>{tMood("Header")}</h1>
           </div>
           <div className="header-right">
             <Sparkles />
-            <span>{currentStreak} day streak</span>
+            <span>{currentStreak} {tMood("Header_Streak")}</span>
           </div>
         </div>
 
         <div className="stats">
-          <div className="stat-card"><CalendarIcon /> Total Moods: {totalMoodEntries}</div>
-          <div className="stat-card">Current Streak: {currentStreak} days</div>
+          <div className="stat-card"><CalendarIcon /> {tMood("total_moods")} {totalMoodEntries}</div>
+          <div className="stat-card">{tMood("Current_streak")} {currentStreak} {tMood("days")}</div>
         </div>
 
         <div className="filter-panel">
-        {allColors.map(c => {
-            // Находим пример цвета для этого тега в данных
+          {allColors.map(c => {
             const exampleRecord = diaryRecords.find(r => r.color_Tags.some(t => t.name === c))
             const colorObj = exampleRecord?.color_Tags.find(t => t.name === c)
-            const color = colorObj?.color || 'var(--icon-color)' // fallback, если цвета нет
-
+            const color = colorObj?.color || 'var(--icon-color)'
             const isSelected = selectedColors.includes(c)
-
             return (
-            <div
+              <div
                 key={c}
                 className={`filter-btn ${isSelected ? "selected" : ""}`}
                 style={{
-                borderColor: color,
-                color: isSelected ? color : 'var(--text-color-trans)',
-                background: isSelected ? 'var(--bg-calendar-input)' : 'transparent',
-                boxShadow: isSelected ? `0 0 8px ${color}` : 'none'
+                  borderColor: color,
+                  color: isSelected ? color : 'var(--text-color-trans)',
+                  background: isSelected ? 'var(--bg-calendar-input)' : 'transparent',
+                  boxShadow: isSelected ? `0 0 8px ${color}` : 'none'
                 }}
                 onClick={() => {
-                if (isSelected) setSelectedColors(selectedColors.filter(s => s!==c))
-                else setSelectedColors([...selectedColors, c])
+                  if (isSelected) setSelectedColors(selectedColors.filter(s => s!==c))
+                  else setSelectedColors([...selectedColors, c])
                 }}
-            >
+              >
                 {c}
-            </div>
+              </div>
             )
-        })}
+          })}
         </div>
 
         {mostPopularMood && (
           <div className="most-popular">
-            Most Popular Mood: {getMoodEmoji(mostPopularMood)} ({mostPopularMood})
+            {tMood("Popular_Mood")} {getMoodEmoji(mostPopularMood)} ({getMoodText(mostPopularMood)})
           </div>
         )}
 
@@ -199,7 +196,11 @@ export default function Page() {
               <span>{day.date.getDate()}</span>
               {day.moods.length > 0 &&
                 <div className="emoji-wrapper">
-                  {day.moods.map((mood, idx) => <span key={idx} className="emoji">{getMoodEmoji(mood)}</span>)}
+                  {day.moods.map((mood, idx) => (
+                    <span key={idx} className="emoji" title={getMoodText(mood)}>
+                      {getMoodEmoji(mood)}
+                    </span>
+                  ))}
                 </div>
               }
             </div>

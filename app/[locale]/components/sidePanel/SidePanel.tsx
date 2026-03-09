@@ -4,7 +4,7 @@ import Image from "next/image";
 import lightIcon from "@/public/imgs/light.svg";
 import darkIcon from "@/public/imgs/dark.svg";
 import langIcon from "@/public/imgs/lang.svg";
-import userIcon from "@/public/imgs/user.svg";
+// import userIcon from "@/public/imgs/user.svg";
 
 import { Link, usePathname } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import "./sidePanel.scss";
 
 export default function SidePanel({
-  onAuthClick = () => {},
   className = "",
 }) {
   const [openLangMenu, setOpenLangMenu] = useState(false);
@@ -75,14 +74,14 @@ export default function SidePanel({
           </div>
         )}
 
-        <button
+        {/* <button
           className="iconBtn"
           onClick={onAuthClick}
           aria-label="auth"
           title="Account"
         >
           <Image src={userIcon} alt="user" />
-        </button>
+        </button> */}
 
         <button
           className="iconBtn"
