@@ -5,9 +5,11 @@ This project demonstrates modern **frontend + backend architecture**, authentica
 
 🔗 **Live Demo:** [https://diary-cosmic-liard.vercel.app](https://diary-cosmic-liard.vercel.app)  
 ⚠️ The first request may take **1–5 minutes** because the server runs on a free plan.
+---
+
 
 [Short Presentation](https://www.loom.com/share/00f30e357a024f2c97dfda617ea553e6)
----
+
 
 ## Key Features
 
