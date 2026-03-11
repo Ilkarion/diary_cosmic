@@ -30,6 +30,7 @@ export default function Page() {
     if (!result.ok) {
       const errorText = validateErrorsServer(result.message)
       if(errorText)addTextErrors(errorText, "error")
+      setWait(false)
       return;
     }
     setWait(false)
@@ -39,10 +40,10 @@ export default function Page() {
     const result = await loginUser(email, password);
 
     if (!result.ok) {
-      setLogin(false)
-      console.log("Error:", result.message);
+      setLogin(false);
       const errorText = validateErrorsServer(result.message)
       if(errorText)addTextErrors(errorText, "error")
+      setWait(false)
       return;
     }
     setWait(false)
