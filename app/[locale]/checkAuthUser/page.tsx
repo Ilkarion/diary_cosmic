@@ -21,28 +21,44 @@ export default function CheckAuthUser() {
 
         if (cancelled) return
 
-        // Если fetch вернул ok и есть пользователь
         if (res.ok && res.data?.user) {
+          sessionStorage.removeItem("reload404")
           router.push("/user")
           return
         }
 
-        // Если fetch вернул ok, но user нет
         if (res.ok && !res.data?.user) {
+          sessionStorage.removeItem("reload404")
           router.push("/sign")
           return
         }
 
-        // Если fetch вернул ошибку
         if (!res.ok) {
-          // Если есть объект Response
+
           if (res.error instanceof Response) {
+
+            // 404 обработка
+            if (res.error.status === 404 ||res.error.status === 403) {
+              const alreadyReloaded = sessionStorage.getItem("reload404")
+
+              if (!alreadyReloaded) {
+                sessionStorage.setItem("reload404", "true")
+                window.location.reload()
+                return
+              } else {
+                sessionStorage.removeItem("reload404")
+                router.push("/sign")
+                return
+              }
+            }
+
             if (res.error.status === 401 || res.error.status === 403) {
               router.push("/sign")
               return
             } else {
               setStatusMsg(`Server error: ${res.error.status}`)
             }
+
           } else if (res.error instanceof Error) {
             setStatusMsg(`Error: ${res.error.message}`)
           } else if (typeof res.error === "string") {
@@ -51,11 +67,11 @@ export default function CheckAuthUser() {
             setStatusMsg(t("unknownError"))
           }
 
-          // редирект через 3 секунды для остальных ошибок
           setTimeout(() => {
             if (!cancelled) router.push("/")
           }, 3000)
         }
+
       } catch (err) {
         if (!cancelled) {
           setStatusMsg("Network error: Server is not available")

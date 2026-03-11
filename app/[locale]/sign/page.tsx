@@ -64,6 +64,7 @@ export default function Page() {
     //handle errors
     if(errorsForm.length > 0) {
       errorsForm.forEach(item => addTextErrors(item, "error"))
+      setWait(false)
       return
     }
 
