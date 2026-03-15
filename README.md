@@ -11,6 +11,9 @@ This project demonstrates modern **frontend + backend architecture**, authentica
 
 [Short Presentation](https://www.loom.com/share/00f30e357a024f2c97dfda617ea553e6)
 
+---
+to confirm your Gmail check spam folder
+
 
 ## Key Features
 
