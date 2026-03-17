@@ -9,7 +9,7 @@ This project demonstrates modern **frontend + backend architecture**, authentica
 
 **BackEnd Server**[https://github.com/Ilkarion/your_book_backend]
 
-[Short Presentation](https://www.loom.com/share/00f30e357a024f2c97dfda617ea553e6)
+[Short Presentation](https://www.youtube.com/watch?v=MtsiEauloEs))
 
 ---
 to confirm your Gmail check spam folder
