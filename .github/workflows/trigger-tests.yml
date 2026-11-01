@@ -1,0 +1,19 @@
+name: Trigger Selenium Tests after Vercel Deploy
+
+on:
+  deployment_status:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    if: github.event.deployment_status.state == 'success'
+    steps:
+      - name: Trigger Selenium Tests via GitHub API
+        env:
+          GH_TOKEN: ${{ secrets.TEST_REPO_PAT }}
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/Ilkarion/Your-Diary-Auto-testing/dispatches \
+            -f event_type='run-selenium-tests'
