@@ -6,9 +6,9 @@ export function buildNodesAndEdges(
   records: dailyRecordForFlow[],
   selectedColor?: string
 ): { nodes: Node[]; edges: Edge[] } {
-  const VERTICAL_GAP = 300;    // расстояние между карточками в один день
-  const HORIZONTAL_GAP = 480;  // расстояние между днями
-  const TIME_SHIFT = 100;      // сдвиг вправо для более поздних в тот же день
+  const VERTICAL_GAP = 300;    // the distance between cards on a single day
+  const HORIZONTAL_GAP = 480;  // the interval between days
+  const TIME_SHIFT = 100;      // a right shift for later times on the same day
 
   const filtered = selectedColor
     ? records.filter((r) =>
@@ -40,7 +40,7 @@ export function buildNodesAndEdges(
   dayKeys.forEach((dayKey) => {
     const dayRecords = groups[dayKey];
 
-    // Создаем ноды для текущего дня
+    // Creating nodes for the current day
     dayRecords.forEach((record, i) => {
       const currentPosition = {
         x: xBase + i * TIME_SHIFT,
@@ -56,7 +56,7 @@ export function buildNodesAndEdges(
 
       nodes.push(currentNode);
 
-      // Внутри дня: соединяем вертикально снизу-сверху
+      // Intraday: Connecting Vertically from Bottom to Top
       if (i > 0) {
         edges.push({
           id: `${dayRecords[i - 1].id_record}-${currentNode.id}`,
@@ -69,7 +69,7 @@ export function buildNodesAndEdges(
       }
     });
 
-    // Между днями: соединяем последнюю карточку этого дня с первой карточкой следующего дня
+    // Between Days: Connect the last card of this day to the first card of the next day
     if (prevDayLastNodeId) {
       const firstNodeNextDay = dayRecords[0];
       edges.push({
@@ -82,7 +82,7 @@ export function buildNodesAndEdges(
       });
     }
 
-    // Последняя нода дня, чтобы соединять со следующим днем
+    // The last node of the day to connect to the next day
     prevDayLastNodeId = dayRecords[dayRecords.length - 1].id_record;
 
     xBase += HORIZONTAL_GAP;
