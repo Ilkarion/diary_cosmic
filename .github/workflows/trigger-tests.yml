@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Trigger Selenium Tests via GitHub API
         env:
-          GH_TOKEN: ${{ secrets.TEST_REPO_PAT }}
+          GH_TOKEN: ${{ secrets.AUTO_TESTING }}
         run: |
           gh api \
             --method POST \
