@@ -80,39 +80,6 @@ const addDiaryRecord = async (record: DiaryRecordPayload2) => {
   }
 };
 
-// frontend/api/diary.ts
-
-// export async function fetchAllTags() {
-//   try {
-//     const request = () =>
-//       fetch(`${API_URL}/api/diary-allTags`, {
-//         method: "POST",
-//         credentials: "include",
-//         headers: { "Content-Type": "application/json" },
-//       });
-
-//     let res = await request();
-
-//     if (!res.ok) {
-//       await refreshToken();
-//       res = await request();
-//     }
-
-//     if (!res.ok) {
-//       return null 
-//     };
-
-//     const data = await res.json();
-//     return {
-//       all_Tags: data.all_Tags,
-//       all_Color_Tags: data.all_Color_Tags,
-//     };
-//   } catch {
-//     return null;
-//   }
-// }//REMOVE THAT AND From BACKEND TOO
-
-
 //edit record
 export async function editDiaryRecord(record: TodayData) {
   const res = await fetch(`${API_URL}/api/diary-edit`, {
@@ -246,7 +213,7 @@ export const saveEditor = async (
     return null;
   }
 
-  // Объединяем новые цветовые теги с глобальными
+  // Combine the new color tags with the global ones
   const newColorTags = color_Tags.filter(
     tag => !all_Color_Tags.some(t => t.name === tag.name && t.color === tag.color)
   );
@@ -314,7 +281,7 @@ export const renderSaved = (
   data: TodayData,
   setHighLights: React.Dispatch<React.SetStateAction<TodayData["highlights"]>>,
 ) => {
-  // восстановление полей
+  // Restore fields
   setTitle(data.title);
   setDate(data.date);
   setFeel(data.feels);
