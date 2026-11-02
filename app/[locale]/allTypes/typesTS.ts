@@ -88,10 +88,10 @@ export interface DiaryRecordPayload2 {
   id_record?: string;
   title: string;
   date: string;
-  feels: string[];           // здесь можешь заменить на FeelingOption[]
+  feels: string[];           
   tags: string[];
-  color_Tags: ResearchTask[];      // здесь можешь заменить на ResearchTask[]
-  highlights: Highlight[];      // здесь можешь заменить на Highlight[]
+  color_Tags: ResearchTask[]; 
+  highlights: Highlight[];     
 
   all_Tags: string[];
   all_Color_Tags:  { name: string, color: string }[];
