@@ -8,7 +8,7 @@ type UserInfoResult = {
 }
 
 
-// ✅ GET USER INFO
+// GET user info
 export async function userInfo(): Promise<UserInfoResult> {
 
   try {
@@ -23,8 +23,7 @@ export async function userInfo(): Promise<UserInfoResult> {
       }
     )
 
-    // ✅ пользователь просто НЕ залогинен
-    // это НЕ ошибка
+    // user just not logged in
     if (res.status === 401 || res.status === 403) {
       return {
         ok: true,
@@ -32,7 +31,7 @@ export async function userInfo(): Promise<UserInfoResult> {
       }
 
     }
-    // сервер умер
+    // server died
     if (!res.ok) {
       return {
         ok: false,
@@ -64,7 +63,7 @@ export async function userInfo(): Promise<UserInfoResult> {
 
 
 
-// ✅ REFRESH TOKEN (используй отдельно когда реально надо)
+// REFRESH TOKEN
 export async function refreshToken(): Promise<void> {
 
   const res = await fetch(
