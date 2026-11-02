@@ -71,7 +71,7 @@ export async function logoutUser() {
   try {
     const response = await fetch(`${API_URL}/api/logout`, {
       method: "POST",
-      credentials: "include", // куки
+      credentials: "include", // cookies
     });
 
     if (!response.ok) {
