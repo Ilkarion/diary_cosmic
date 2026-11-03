@@ -37,7 +37,7 @@ export default function CheckAuthUser() {
 
           if (res.error instanceof Response) {
 
-            // 404 обработка
+            // 404 Processing
             if (res.error.status === 404 ||res.error.status === 403) {
               const alreadyReloaded = sessionStorage.getItem("reload404")
 
